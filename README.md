@@ -1,5 +1,5 @@
 # Organisation
-### Gestion des tâches
+## Gestion des tâches
 [Trello](https://trello.com/b/DPv9ow8F/ppro0403)
 
 # Commandes git
