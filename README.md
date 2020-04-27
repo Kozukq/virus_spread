@@ -27,9 +27,9 @@ Dans un troisième temps, il faut réfléchir aux simulations que l'on souhaite 
 
 ## Commandes git
 ### Envoyer sur le dépôt distant les modifications  
-git add .  
-git commit -m "message décrivant le contenu des modifications"  
-git push
+> git add .  
+> git commit -m "message décrivant le contenu des modifications"  
+> git push
 
 ### Mettre à jour le contenu du dépôt local avec celui du dépôt distant
-git pull
+> git pull
