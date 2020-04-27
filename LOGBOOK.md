@@ -2,3 +2,5 @@
 
 ### Lundi 27 Avril
 Brainstorming général sur le projet.
+Questions pour M. Rabat :
+  s
