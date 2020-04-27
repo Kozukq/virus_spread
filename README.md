@@ -1,3 +1,12 @@
+# Commandes git
+### Envoyer sur le dépôt distant les modifications  
+> git add .  
+> git commit -m "message décrivant le contenu des modifications"  
+> git push
+
+### Mettre à jour le contenu du dépôt local avec celui du dépôt distant
+> git pull
+
 # Simulation de la propagation d’un virus
 
 ## Sujet
@@ -24,12 +33,3 @@ Dans un troisième temps, il faut réfléchir aux simulations que l'on souhaite 
 [Taux d'hospitalisation parmi les passages aux urgences pour suspicion de Covid-19](https://www.data.gouv.fr/fr/datasets/taux-dhospitalisation-parmi-les-passages-aux-urgences-pour-suspicion-de-covid-19/)
 
 [Taux de passage aux urgences pour suspicion de Covid-19](https://www.data.gouv.fr/fr/datasets/taux-de-passages-aux-urgences-pour-suspicion-de-covid-19/)
-
-## Commandes git
-### Envoyer sur le dépôt distant les modifications  
-> git add .  
-> git commit -m "message décrivant le contenu des modifications"  
-> git push
-
-### Mettre à jour le contenu du dépôt local avec celui du dépôt distant
-> git pull
