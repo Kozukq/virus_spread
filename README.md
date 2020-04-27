@@ -28,33 +28,8 @@ Dans un troisième temps, il faut réfléchir aux simulations que l'on souhaite 
 ## Commandes git
 ### Envoyer sur le dépôt distant les modifications  
 git add .  
-git commit -m "message décrivant le contenu des modifications"
+git commit -m "message décrivant le contenu des modifications"  
 git push
 
 ### Mettre à jour le contenu du dépôt local avec celui du dépôt distant
 git pull
-
-
-
-
-git pull
-> Récupérer l
-
-git add .
-> ajoute toutes les modifications effectuées
-
-git status
-> affiche les modifications effectuées
-
-git commit -m "message"
-> crée un commit. exemple : git commit -m "exo1"
-
-git push
-> i.e. : git push origin master
-
-#### Changement de branche :
-git checkout "Nom de la brache"
-> git checkout Dev
-
-git branch
-> Affiche la branche courante
