@@ -1,11 +1,11 @@
 # Commandes git
-### Envoyer sur le dépôt distant les modifications  
+### Mettre à jour le contenu du dépôt local avec celui du dépôt distant
+> git pull
+
+### Envoyer sur le dépôt distant les modifications (Toujours mettre à jour son dépôt local avant d'envoyer)  
 > git add .  
 > git commit -m "message décrivant le contenu des modifications"  
 > git push
-
-### Mettre à jour le contenu du dépôt local avec celui du dépôt distant
-> git pull
 
 # Simulation de la propagation d’un virus
 
