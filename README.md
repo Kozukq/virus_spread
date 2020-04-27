@@ -26,9 +26,19 @@ Dans un troisième temps, il faut réfléchir aux simulations que l'on souhaite 
 [Taux de passage aux urgences pour suspicion de Covid-19](https://www.data.gouv.fr/fr/datasets/taux-de-passages-aux-urgences-pour-suspicion-de-covid-19/)
 
 ## Commandes git
+### Envoyer sur le dépôt distant les modifications  
+git add .  
+git commit -m "message décrivant le contenu des modifications"
+git push
 
-git pull origin "Nom de la branche"
-> i.e. : git pull origin master
+### Mettre à jour le contenu du dépôt local avec celui du dépôt distant
+git pull
+
+
+
+
+git pull
+> Récupérer l
 
 git add .
 > ajoute toutes les modifications effectuées
@@ -39,7 +49,7 @@ git status
 git commit -m "message"
 > crée un commit. exemple : git commit -m "exo1"
 
-git push origin "Nom de la branche"
+git push
 > i.e. : git push origin master
 
 #### Changement de branche :
