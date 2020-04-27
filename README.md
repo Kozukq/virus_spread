@@ -24,3 +24,27 @@ Dans un troisième temps, il faut réfléchir aux simulations que l'on souhaite 
 [Taux d'hospitalisation parmi les passages aux urgences pour suspicion de Covid-19](https://www.data.gouv.fr/fr/datasets/taux-dhospitalisation-parmi-les-passages-aux-urgences-pour-suspicion-de-covid-19/)
 
 [Taux de passage aux urgences pour suspicion de Covid-19](https://www.data.gouv.fr/fr/datasets/taux-de-passages-aux-urgences-pour-suspicion-de-covid-19/)
+
+## Commandes git
+
+git pull origin "Nom de la branche"
+> i.e. : git pull origin master
+
+git add .
+> ajoute toutes les modifications effectuées
+
+git status
+> affiche les modifications effectuées
+
+git commit -m "message"
+> crée un commit. exemple : git commit -m "exo1"
+
+git push origin "Nom de la branche"
+> i.e. : git push origin master
+
+#### Changement de branche :
+git checkout "Nom de la brache"
+> git checkout Dev
+
+git branch
+> Affiche la branche courante
