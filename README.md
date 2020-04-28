@@ -1,6 +1,7 @@
 # Organisation
 ## Gestion des tâches
 [Trello](https://trello.com/b/DPv9ow8F/ppro0403)
+[Diagramme UML](https://app.creately.com/diagram/EsYCm6ynQyj/edit)
 
 # Commandes git
 ### Mettre à jour le contenu du dépôt local avec celui du dépôt distant
