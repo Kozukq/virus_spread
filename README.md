@@ -1,6 +1,6 @@
 # Organisation
 ## Gestion des tâches
-[Trello](https://trello.com/b/DPv9ow8F/ppro0403)
+[Trello](https://trello.com/b/DPv9ow8F/ppro0403)  
 [Diagramme UML](https://app.creately.com/diagram/EsYCm6ynQyj/edit)
 
 # Commandes git
