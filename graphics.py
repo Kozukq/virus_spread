@@ -13,20 +13,23 @@ window = pygame.display.set_mode([width,height])
 circle1 = pygame.draw.circle(window,WHITE,[width//4,height//2],10)
 circle2 = pygame.draw.circle(window,WHITE,[(width//2+width//4),height//2],10)
 
-speed1 = [1,2]
-speed2 = [-1,0]
+pos1x = circle1.x
+pos1y = circle1.y
+
+pos2x = circle2.x
+pos2y = circle2.y
 
 while 1 :
+	window.fill(BLACK)
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT: sys.exit()
 
-	circle1.move(speed1)
-	circle2.move(speed2)
+	pos1x += 1
+	pos2x -= 1
 
-	circle1 = pygame.draw.circle(window,WHITE,[circle1.x,circle1.y],10)
-	circle2 = pygame.draw.circle(window,WHITE,[circle2.x,circle2.y],10)
+	circle1 = pygame.draw.circle(window,WHITE,[pos1x,pos1y],10)
+	circle2 = pygame.draw.circle(window,WHITE,[pos2x,pos2y],10)
 
-	# window.fill(BLACK)
-	time.sleep(0.1)
+	time.sleep(0.01)
 	pygame.display.flip()
 	
