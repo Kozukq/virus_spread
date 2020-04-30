@@ -14,8 +14,8 @@ Continuité de l'apprentissage du langage.
 
 Mahmoud Illourmane :
 
-29/04/20	Apprentissage de Python, bases (fonctions, boucles, exceptions…)
-30/04/20	Apprentissage de Python : (listes, tuples, dictionnaires)
+29/04/20	Apprentissage de Python, bases (fonctions, boucles, exceptions…)  
+30/04/20	Apprentissage de Python : (listes, tuples, dictionnaires)  
 
 
 
