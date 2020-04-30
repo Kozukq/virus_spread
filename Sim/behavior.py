@@ -25,4 +25,4 @@ class Behavior:
 		print("	Probability of going outside each cycle : ", self.movingProb)
 
 
-prudent = Behavior("Prudent", True, 1, True, 0.35)
+prudent = Behavior("Cautious", True, 1, True, 0.35)

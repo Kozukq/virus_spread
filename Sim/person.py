@@ -1,5 +1,6 @@
 import random
 from Sim.utilities import decision
+from Sim.utilities import namesList
 from Sim.behavior import *
 
 
@@ -8,6 +9,7 @@ probHealthIsues = 0.25
 
 class Person:
 	def __init__(self):
+		self.name = random.choice(namesList)
 		self.age = random.randint(10, 99)
 		self.infected = False
 		self.alive = True
@@ -17,13 +19,13 @@ class Person:
 		self.behavior = prudent
 
 	def displayInfos(self):
-		print("Infos : ")
+		print("Infos : ", self.name)
 		print("Age : ", self.age)
 		print("Infected : ", self.infected)
 		print("Cured : ", self.cured)
 		print("Is immune : ", self.immunity)
 		print("Has existing health issues : ", self.healthIssues)
-		print("")
-		self.behavior.displayBehavior()
+		print("Behavior : ", self.behavior.behaviorName)
+		
 
 
