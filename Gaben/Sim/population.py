@@ -1,5 +1,5 @@
 import random
-from Sim.parameters import decision
+from Sim.utilities import decision
 
 
 #Probabilité que la personne aie des problèmes de santé
