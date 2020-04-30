@@ -10,8 +10,8 @@ width = 320
 height = 240
 window = pygame.display.set_mode([width,height])
 
-circle1 = pygame.draw.circle(window,WHITE,[width/4,height/2],10)
-circle2 = pygame.draw.circle(window,WHITE,[(width/2+width/4),height/2],10)
+circle1 = pygame.draw.circle(window,WHITE,[width//4,height//2],10)
+circle2 = pygame.draw.circle(window,WHITE,[(width//2+width//4),height//2],10)
 
 speed1 = [1,2]
 speed2 = [-1,0]
