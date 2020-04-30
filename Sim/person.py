@@ -1,5 +1,6 @@
 import random
 from Sim.utilities import decision
+from Sim.behavior import *
 
 
 #Probabilité que la personne aie des problèmes de santé
@@ -13,6 +14,7 @@ class Person:
 		self.cured = False
 		self.immunity = False
 		self.healthIssues = decision(probHealthIsues)
+		self.behavior = prudent
 
 	def displayInfos(self):
 		print("Infos : ")
@@ -21,5 +23,7 @@ class Person:
 		print("Cured : ", self.cured)
 		print("Is immune : ", self.immunity)
 		print("Has existing health issues : ", self.healthIssues)
+		print("")
+		self.behavior.displayBehavior()
 
 
