@@ -9,13 +9,3 @@ RDV avec Mr. Rabat pour clarifier certaines choses.
 Récupération de ressources supplémentaires pour le travail sur le DOD.  
 Début du cahier des charges.  
 Continuité de l'apprentissage du langage.
-
-### Avancement personnel :
-
-Mahmoud Illourmane :
-
-29/04/20	Apprentissage de Python, bases (fonctions, boucles, exceptions…)  
-30/04/20	Apprentissage de Python : (listes, tuples, dictionnaires)  
-
-
-
