@@ -1,38 +1,32 @@
 import pygame, sys, time, os
-
 try:
     os.environ["DISPLAY"]
 except:
     os.environ["SDL_VIDEODRIVER"] = "dummy" 
 
 WHITE = [255,255,255]
+BLACK = [0,0,0]
 width = 320
 height = 240
-center = [width//2,height//2]
 window = pygame.display.set_mode([width,height])
-position = [0,0]
-backward = False
+
+circle1 = pygame.draw.circle(window,WHITE,[width/4,height/2],10)
+circle2 = pygame.draw.circle(window,WHITE,[(width/2+width/4),height/2],10)
+
+speed1 = [1,2]
+speed2 = [-1,0]
 
 while 1 :
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT: sys.exit()
 
-	print(position)
-	if backward :
-		circle = pygame.draw.circle(window,WHITE,position,10)
-	else :
-		circle = pygame.draw.circle(window,WHITE,position,10)
+	circle1.move(speed1)
+	circle2.move(speed2)
 
+	circle1 = pygame.draw.circle(window,WHITE,[circle1.x,circle1.y],10)
+	circle2 = pygame.draw.circle(window,WHITE,[circle2.x,circle2.y],10)
 
-	if circle.left < 0 or circle.right > width :
-		backward = True
-		position[0] = 0
-	if circle.top < 0 or circle.bottom > height :
-		backward = True
-		position[1] = 0
-	else :
-		position[0] += 1
-		position[1] += 1
-
+	# window.fill(BLACK)
+	time.sleep(0.1)
 	pygame.display.flip()
 	
