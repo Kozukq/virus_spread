@@ -13,7 +13,7 @@
 > git push
 
 ### Changer de branche 
-> git checkout "nom de la branche"
+> git checkout "nom de la branche"  
 > ex : git checkout master
 
 # Simulation de la propagation d’un virus
