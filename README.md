@@ -12,6 +12,10 @@
 > git commit -m "message décrivant le contenu des modifications"  
 > git push
 
+### Changer de branche 
+> git checkout "nom de la branche"
+> ex : git checkout master
+
 # Simulation de la propagation d’un virus
 
 ## Sujet
