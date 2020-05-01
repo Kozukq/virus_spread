@@ -2,6 +2,7 @@ import random
 from Sim.utilities import decision
 from Sim.utilities import namesList
 from Sim.behavior import *
+from Sim.virus import Virus
 
 
 #Probabilité que la personne aie des problèmes de santé
@@ -26,6 +27,14 @@ class Person:
 		print("Is immune : ", self.immunity)
 		print("Has existing health issues : ", self.healthIssues)
 		print("Behavior : ", self.behavior.behaviorName)
+		if self.infected:
+			print()
+			self.virus.printVirus()
+
+	def infection(self, pathToJson):
+		if not self.immunity and self.alive:
+			self.virus = Virus(self.age, self.healthIssues, pathToJson)
+			self.infected = true
 		
 
 
