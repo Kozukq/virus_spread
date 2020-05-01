@@ -6,6 +6,6 @@ import json
 from Sim.person import Person
 
 bob = Person()
-bob.infection("Virus\ Presets/Covid.json")
+bob.infection("Virus Presets/Covid.json")
 bob.displayInfos()
 

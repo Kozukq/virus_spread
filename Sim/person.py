@@ -34,7 +34,7 @@ class Person:
 	def infection(self, pathToJson):
 		if not self.immunity and self.alive:
 			self.virus = Virus(self.age, self.healthIssues, pathToJson)
-			self.infected = true
+			self.infected = True
 		
 
 
