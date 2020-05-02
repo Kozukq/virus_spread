@@ -3,6 +3,7 @@ import json
 #Classe permettant de stocker les diverses informations a propos du virus
 class Virus:
 	def __init__(self, age : int, healthIssues : bool, pathToJson):
+		self.pathToJson = pathToJson
 		#open the json file	
 		with open(pathToJson) as jsonFile:
 			self.settings = json.load(jsonFile)
@@ -27,6 +28,8 @@ class Virus:
 				self.deathChance = self.settings["DeathChance"]["80-89"]
 			else:
 				self.deathChance = self.settings["DeathChance"]["90-100"]
+
+			#Multiplicateur de comorbidité
 			if healthIssues:
 				self.deathChance *= self.settings["ComorbidityMultiplier"]
 

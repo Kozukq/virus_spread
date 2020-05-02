@@ -1,5 +1,7 @@
 class Behavior:
 
+	#TODO : Dictionnaire de comportements pour mapper chaque comportementà un nom.
+
 	def __init__(self, name : str, isCautious : bool, cautionRadius : float,isProtected : bool, movingProb : float):
 		#Nom du type de comportement
 		self.behaviorName = name
