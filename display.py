@@ -1,5 +1,8 @@
-import pygame, sys, time, os
-from Sim.person import Person
+import pygame
+import sys
+import time
+import os
+from src.person import Person
 try:
     os.environ["DISPLAY"]
 except:
@@ -11,13 +14,13 @@ color = {
 	"RED" : [255,0,0]
 }
 
-class display:
+class Display:
 	def __init__(self):
 		self.width = 320
 		self.height = 240
 		self.window = pygame.display.set_mode([self.width,self.height])
 
-display = display()
+display = Display()
 
 
 while 1 :
@@ -29,4 +32,3 @@ while 1 :
 
 	time.sleep(0.01)
 	pygame.display.flip()
-	
