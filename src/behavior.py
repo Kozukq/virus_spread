@@ -1,5 +1,4 @@
 class Behavior:
-
 	def __init__(self, name : str, isCautious : bool, cautionRadius : float,isProtected : bool, movingProb : float):
 		#Nom du type de comportement
 		self.behaviorName = name
@@ -20,7 +19,7 @@ class Behavior:
 		print("	Behavior : ", self.behaviorName)
 		print("	Cautious : ", self.cautious)
 		if self.cautious:
-			print("	Caution radius : ", self.cautionRadius)
+			print("	Caution radius : ", self.cautionRadius)		
 		print("	Wears protection : ", self.protected)
 		print("	Probability of going outside each cycle : ", self.movingProb)
 
