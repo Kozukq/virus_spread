@@ -1,7 +1,5 @@
 class Behavior:
 
-	#TODO : Dictionnaire de comportements pour mapper chaque comportementà un nom.
-
 	def __init__(self, name : str, isCautious : bool, cautionRadius : float,isProtected : bool, movingProb : float):
 		#Nom du type de comportement
 		self.behaviorName = name
@@ -14,7 +12,7 @@ class Behavior:
 		#Si la personne porte des gants et un masque
 		self.protected = isProtected
 
-		#Probabilité de que la personne sorte dehors
+		#Probabilité de que la personne sorte dehors chaque cycle
 		self.movingProb = movingProb
 
 
@@ -27,4 +25,7 @@ class Behavior:
 		print("	Probability of going outside each cycle : ", self.movingProb)
 
 
-prudent = Behavior("Cautious", True, 1, True, 0.35)
+behaviorTypes = {
+	"Cautious": Behavior("Cautious", True, 1, True, 0.05),
+	"Uncareful": Behavior("Uncareful", False, 0, False, 0.35)
+}
