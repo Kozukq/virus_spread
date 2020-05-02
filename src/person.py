@@ -1,8 +1,8 @@
 import random
-from Sim.utilities import decision
-from Sim.utilities import namesList
-from Sim.behavior import *
-from Sim.virus import Virus
+from src.utilities import decision
+from src.utilities import namesList
+from src.behavior import *
+from src.virus import Virus
 
 
 #Probabilité que la personne aie des problèmes de santé

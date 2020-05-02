@@ -3,7 +3,7 @@
 
 import json
 
-from Sim.person import Person
+from src.person import Person
 
 bob = Person()
 bob.infection(0.04, "Virus Presets/Covid.json")
