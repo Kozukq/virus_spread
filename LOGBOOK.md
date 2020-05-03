@@ -18,5 +18,5 @@ Ben : Création d'une fenêtre pygame avec des cercles qui se déplacent et déb
 
 ### Dimanche 3 Mai
 Fusion de l'affichage et de la logique : on peut désormais instancier une personne et l'afficher comme un cercle dans la fenêtre  
-Définition des méthodes de déplacement des personnes (Utilisation de l'interpolation linéaire entre 2 vecteurs 2D)
+Définition des méthodes de déplacement des personnes (Utilisation de l'interpolation linéaire entre 2 vecteurs 2D)  
 Modification du diagramme UML
