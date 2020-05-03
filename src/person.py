@@ -56,8 +56,11 @@ class Person:
 	def draw(self):
 		self.rendered = pygame.draw.circle(self.window, self.color, [int(self.position.x), int(self.position.y)], int(self.radius), self.width)
 
-	def center(self):
-		self.position = pygame.math.Vector2(self.window.get_width()/2,self.window.get_height()/2)
+	def move(self, target : pygame.math.Vector2, speed : float):
+		if self.position.x != target.x:
+			self.position.x += speed/(target.x - self.position.x)
+		if self.position.y != target.y:
+			self.position.y += speed/(target.y - self.position.y)
 
 	#Méthode lancée chaque cycle par une autre personne lorsqu'elle rentre en contact avec la personne courante.
 	#Infecte la personne courante selon la chance d'infection passée en paramètre et avec le virus également passé en paramètre. 

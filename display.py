@@ -25,10 +25,13 @@ class Display:
 
 
 display = Display()
+clock = pygame.time.Clock()
 
 persons = []
 persons.append(Person(display.window))
-persons[0].center()
+persons.append(Person(display.window))
+persons[0].position = pygame.math.Vector2(20, display.window.get_height()/2)
+persons[1].position = pygame.math.Vector2(display.window.get_width()-20, display.window.get_height()/2)
 
 #Fonction qui actualise l'affichage
 def Render():
@@ -43,9 +46,9 @@ while 1 :
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT: sys.exit()
 
-	
+	deltaTime = clock.tick(60)
+
+	persons[1].position = pygame.math.Vector2(pygame.mouse.get_pos())
+	persons[0].move(persons[1].position, 1000/float(deltaTime))
 
 	Render()
-	
-	#trouver un autre moyen de limiter le framerate car pendant le sleep toute la simulation est bloquée
-	time.sleep(1)
