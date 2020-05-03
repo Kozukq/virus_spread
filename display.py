@@ -50,6 +50,6 @@ while 1 :
 	deltaTime = clock.tick(60)
 
 	persons[1].position = pygame.math.Vector2(pygame.mouse.get_pos())
-	persons[0].move(persons[1].position, 1000/float(deltaTime))
+	persons[0].move(persons[1].position, 50/float(deltaTime))
 
 	Render()
