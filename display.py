@@ -27,6 +27,7 @@ class Display:
 display = Display()
 clock = pygame.time.Clock()
 
+# persons = generate(display.window,3)
 persons = []
 persons.append(Person(display.window))
 persons.append(Person(display.window))

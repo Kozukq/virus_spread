@@ -76,6 +76,13 @@ class Person:
 			#TODO : gérer la réduction du risque de propagation par les masques etc...
 			other.infection(self.virus.infectionChance(), self.virus.pathToJson)
 
+def generate(window, n = 100):
+	persons = []
+	while n > 0:
+		persons.append(Person(window))
+		n -= 1
+	return persons
+
 		
 
 
