@@ -27,12 +27,11 @@ class Display:
 display = Display()
 clock = pygame.time.Clock()
 
-# persons = generate(display.window,3)
-persons = []
-persons.append(Person(display.window))
-persons.append(Person(display.window))
-persons[0].position = pygame.math.Vector2(20, display.window.get_height()/2)
-persons[1].position = pygame.math.Vector2(display.window.get_width()-20, display.window.get_height()/2)
+#Génère n personnes 
+persons = generate(display.window,200)
+rectList = []
+for person in persons:
+	rectList.append(person.hitbox)
 
 #Fonction qui actualise l'affichage
 def Render():
@@ -49,7 +48,7 @@ while 1 :
 
 	deltaTime = clock.tick(60)
 
-	persons[1].position = pygame.math.Vector2(pygame.mouse.get_pos())
-	persons[0].move(persons[1].position, 50/float(deltaTime))
+	for person in persons:
+		person.move(50/float(deltaTime))
 
 	Render()
