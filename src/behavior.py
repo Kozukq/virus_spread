@@ -19,10 +19,9 @@ class Behavior:
 		print("	Behavior : ", self.behaviorName)
 		print("	Cautious : ", self.cautious)
 		if self.cautious:
-			print("	Caution radius : ", self.cautionRadius)		
+			print("	Caution radius : ", self.cautionRadius)
 		print("	Wears protection : ", self.protected)
 		print("	Probability of going outside each cycle : ", self.movingProb)
-
 
 behaviorTypes = {
 	"Cautious": Behavior("Cautious", True, 1, True, 0.05),
