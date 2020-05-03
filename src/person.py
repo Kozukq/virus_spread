@@ -31,13 +31,13 @@ class Person:
 		#################################### Graphics part ###################################################
 		#Position de la personne dans l'espace
 		self.position = pygame.math.Vector2(random.randint(20, window.get_width()-20), random.randint(20,window.get_height()-20))
-		self.radius = 10
+		self.radius = 7
 		self.color = [115, 108, 237]
 		self.window = window
-		self.width = 1
+		self.width = 0
 		#Vecteur normalisé représentant la direction
 		self.direction = pygame.math.Vector2(random.uniform(-1,1), random.uniform(-1, 1)).normalize()
-		self.hitbox = pygame.Rect((self.position.x)-5, (self.position.y)-5, self.radius*2, self.radius*2)
+		self.hitbox = pygame.Rect((self.position.x)-5, (self.position.y)-5, self.radius*1.3, self.radius*1.3)
 		self.speed = 50
 
 
@@ -58,7 +58,7 @@ class Person:
 
 	def draw(self):
 		pygame.draw.circle(self.window, self.color, [int(self.position.x), int(self.position.y)], int(self.radius), self.width)
-		pygame.draw.rect(self.window, [255,255,255], self.hitbox,1)
+		# pygame.draw.rect(self.window, [0,0,0], self.hitbox,1)
 
 	def moveTowards(self, target : pygame.math.Vector2, speed : float):
 		self.position += (target - self.position).normalize() * speed
@@ -108,10 +108,10 @@ class Person:
 
 def generate(window, n = 100):
 	persons = []
-	hitboxes = []
 	while n > 0:
 		persons.append(Person(window))
 		n -= 1
+	hitboxes = []
 	for person in persons:
 		hitboxes.append(person.hitbox)
 	return persons, hitboxes
