@@ -2,7 +2,7 @@ import pygame
 import sys
 import time
 import os
-from src.person import Person
+from src.person import Person, generate
 
 #Pour gabriel qui utilise la magie noire afin de lancer les fenêtres sous windows#
 try:
