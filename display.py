@@ -22,33 +22,30 @@ class Display:
 		self.width = 640
 		self.height = 480
 		self.window = pygame.display.set_mode([self.width,self.height])
-
+		self.clock = pygame.time.Clock()
 
 display = Display()
-clock = pygame.time.Clock()
 
 #Génère n personnes 
-persons = generate(display.window,200)
-rectList = []
-for person in persons:
-	rectList.append(person.hitbox)
+persons,hitboxes = generate(display.window,20)
+persons[0].attributes["Infected"] = True
+persons[0].color = [255,0,0]
 
 #Fonction qui actualise l'affichage
 def Render():
 	display.window.fill(color["WHITE"])
 	for person in persons :
 		person.draw()
-
-
 	pygame.display.flip()
 
 while 1 :
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT: sys.exit()
 
-	deltaTime = clock.tick(60)
+	deltaTime = display.clock.tick(60)
 
 	for person in persons:
-		person.move(50/float(deltaTime))
+		person.move(deltaTime)
+		person.checkForCollisions(hitboxes, persons)
 
 	Render()
