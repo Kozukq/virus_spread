@@ -27,7 +27,7 @@ class Display:
 display = Display()
 
 #Génère n personnes 
-persons,hitboxes = generate(display.window,200)
+persons,hitboxes = generate(display.window,100)
 persons[0].attributes["Infected"] = True
 persons[0].color = [255,0,0]
 
