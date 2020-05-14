@@ -1,6 +1,7 @@
 import pygame
 
 import random
+import time
 from src.utilities import decision
 from src.utilities import namesList
 from src.behavior import behaviorTypes
@@ -38,7 +39,8 @@ class Person:
 		#Vecteur normalisé représentant la direction
 		self.direction = pygame.math.Vector2(random.uniform(-1,1), random.uniform(-1, 1)).normalize()
 		self.hitbox = pygame.Rect((self.position.x)-5, (self.position.y)-5, self.radius*1.3, self.radius*1.3)
-		self.speed = 50
+		self.speed = 30
+		self.isMoving = True
 
 
 
@@ -70,12 +72,13 @@ class Person:
 			self.direction.y = -self.direction.y
 
 	def move(self, deltaTime):
-		self.position += self.direction * self.speed / deltaTime
-		self.hitbox.center = (self.position.x, self.position.y)
-		if self.position.x >= self.window.get_width() or self.position.x <= 0:
-			self.bounce(True)
-		if self.position.y >= self.window.get_height() or self.position.y <= 0:
-			self.bounce(False)
+		if self.isMoving:
+			self.position += self.direction * self.speed / deltaTime
+			self.hitbox.center = (self.position.x, self.position.y)
+			if self.position.x >= self.window.get_width() or self.position.x <= 0:
+				self.bounce(True)
+			if self.position.y >= self.window.get_height() or self.position.y <= 0:
+				self.bounce(False)
 
 
 	def checkForCollisions(self, list, persons):
@@ -97,14 +100,25 @@ class Person:
 	def infection(self, infectionChance, pathToJson):
 		if not self.attributes["Imminised"] and self.attributes["Alive"]:
 			if decision(infectionChance):
+				self.virus = Virus(self.attributes["Age"], self.attributes["Comorbidities"], pathToJson)
 				self.attributes["Infected"] = True
 				self.color = [255,0,0]
+				self.infectionTime = time.time()
 
 	#Fonction lancée lors de la collision entre 2 personnes
 	def collision(self, other):
 		if self.attributes["Infected"]:
 			#TODO : gérer la réduction du risque de propagation par les masques etc...
 			other.infection(self.virus.infectionChance(), self.virus.pathToJson)
+
+	def personUpdate(self):
+		if self.attributes["Infected"]:
+			if time.time()-self.infectionTime >= self.virus.deathChance:
+				self.attributes["Alive"] = False
+				self.isMoving = False
+				self.color = [0,0,0]
+
+
 
 def generate(window, n = 100):
 	persons = []

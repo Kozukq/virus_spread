@@ -31,7 +31,7 @@ class Virus:
 
 			#Multiplicateur de comorbidité
 			if healthIssues:
-				self.deathChance *= self.settings["ComorbidityMultiplier"]
+				self.deathChance /= self.settings["ComorbidityMultiplier"]
 
 
 	def printVirus(self):

@@ -27,9 +27,8 @@ class Display:
 display = Display()
 
 #Génère n personnes 
-persons,hitboxes = generate(display.window,100)
-persons[0].attributes["Infected"] = True
-persons[0].color = [255,0,0]
+persons,hitboxes = generate(display.window,20)
+persons[0].infection(1, "Virus Presets/Covid.json")
 
 #Fonction qui actualise l'affichage
 def Render():
@@ -45,7 +44,9 @@ while 1 :
 	deltaTime = display.clock.tick(60)
 
 	for person in persons:
+		person.personUpdate()
 		person.move(deltaTime)
+		print(person.attributes["Infected"])
 		person.checkForCollisions(hitboxes, persons)
 
 	Render()
