@@ -2,12 +2,14 @@ import pygame
 
 import random
 import time
-from src.utilities import decision
-from src.utilities import namesList
+import random
 from src.behavior import behaviorTypes
 from src.virus import Virus
 
+def decision(probability):
+	return random.random() < probability
 
+namesList = ["Ben", "Gabriel", "Jupiler", "Passepartout", "Bill", "François", "Toumou", "Jacques-Etienne", "Le Montagnard", "Le Pingouin", "Oualoulou", "Chewbacca", "Bubul"]		
 
 #Probabilité que la personne aie des problèmes de santé
 probHealthIsues = 0.25
@@ -119,7 +121,6 @@ class Person:
 				self.color = [0,0,0]
 
 
-
 def generate(window, n = 100):
 	persons = []
 	while n > 0:
@@ -129,7 +130,4 @@ def generate(window, n = 100):
 	for person in persons:
 		hitboxes.append(person.hitbox)
 	return persons, hitboxes
-
-		
-
 
