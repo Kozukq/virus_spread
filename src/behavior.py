@@ -15,7 +15,7 @@ class Behavior:
 		self.movingProb = movingProb
 
 
-	def displayBehavior(self):
+	def debug(self):
 		print("	Behavior : ", self.behaviorName)
 		print("	Cautious : ", self.cautious)
 		if self.cautious:

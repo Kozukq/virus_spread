@@ -1,6 +1,6 @@
 {
 	"Name": "COVID-19",
-	"InfectionChance": 0.04,
+	"contagiousness": 0.04,
 	"DeathChance": {
 		"10-19":10,
 		"20-29":10,

@@ -11,22 +11,24 @@ def decision(probability):
 
 namesList = ["Ben", "Gabriel", "Jupiler", "Passepartout", "Bill", "François", "Toumou", "Jacques-Etienne", "Le Montagnard", "Le Pingouin", "Oualoulou", "Chewbacca", "Bubul"]		
 
+diseases = []
+
 #Probabilité que la personne aie des problèmes de santé
 probHealthIsues = 0.25
+
+
 
 #Classe permettant de représenter une personne
 class Person:
 	def __init__(self, window):
 		#Données brutes sur la personne
-		self.attributes = {
-			"Name": random.choice(namesList),					#Nom de la personne
-			"Age": random.randint(10, 99),						#Age de la personne (aléatoire entre 10 et 99)
-			"Infected": False,									#Si la personne est infectée
-			"Alive": True,										#Si la personne est en vie
-			"Cured": False,										#Si la personne est soignée
-			"Imminised": False,									#Si la personne est immunisée
-			"Comorbidities": decision(probHealthIsues)			#Si la personne à des problèmes de santés existants 
-		}
+		self.name = random.choice(namesList)
+		self.age = random.randint(10,99)
+		self.isAlive = True
+		self.isInfected = False
+		self.isCured = False
+		self.isImmune = False
+		#healthIssues = []
 		
 		#Comportement de la personne
 		self.behavior = behaviorTypes["Cautious"]
@@ -44,21 +46,21 @@ class Person:
 		self.speed = 30
 		self.isMoving = True
 
-
-
 	#Méthode qui affiche les infos de la personne dans la console
-	def displayInfos(self):
-		print("Infos : ", self.attributes["Name"])
+	def debug(self):
+		print("Infos : ", self.name)
 		print("Position : ", self.position.toString())
-		print("Age : ", self.attributes["Age"])
-		print("Infected : ", self.attributes["Infected"])
-		print("Cured : ", self.attributes["Cured"])
-		print("Is immune : ", self.attributes["Imminised"])
-		print("Has existing health issues : ", self.attributes["Comorbidities"])
+		print("Age : ", self.age)
+		print("Infected : ", self.isInfected)
+		print("Cured : ", self.isCured)
+		print("Is immune : ", self.isImmune)
+		#print("Has existing health issues : ", self.attributes["Comorbidities"])
 		print("Behavior : ", self.behavior.behaviorName)
-		if self.attributes["Infected"]:
+		if self.isInfected:
 			print()
-			self.virus.printVirus()
+			self.virus.debug()
+
+	########Graphics########
 
 	def draw(self):
 		pygame.draw.circle(self.window, self.color, [int(self.position.x), int(self.position.y)], int(self.radius), self.width)
@@ -93,30 +95,31 @@ class Person:
 				self.bounce(True)
 			if self.hitbox.center[1] - self.hitbox.top < list2[index].center[1]+list2[index].bottom or self.hitbox.center[1] + self.hitbox.bottom > list2[index].center[1]-list2[index].top:
 				self.bounce(False)
-			if persons[index].attributes["Infected"]:
+			if persons[index].isInfected:
 				self.infection(1, "Virus Presets/Covid.json")
 
+	#Fonction lancée lors de la collision entre 2 personnes
+	def collision(self, other):
+		if self.isInfected:
+			#TODO : gérer la réduction du risque de propagation par les masques etc...
+			other.infection(self.virus.infectionChance(), self.virus.pathToJson)
+
+	########Infection########
 
 	#Méthode lancée chaque cycle par une autre personne lorsqu'elle rentre en contact avec la personne courante.
 	#Infecte la personne courante selon la chance d'infection passée en paramètre et avec le virus également passé en paramètre. 
 	def infection(self, infectionChance, pathToJson):
-		if not self.attributes["Imminised"] and self.attributes["Alive"]:
+		if (not self.isImmune) and self.isAlive:
 			if decision(infectionChance):
-				self.virus = Virus(self.attributes["Age"], self.attributes["Comorbidities"], pathToJson)
-				self.attributes["Infected"] = True
+				self.virus = Virus(self.age,False, pathToJson)
+				self.isInfected = True
 				self.color = [255,0,0]
 				self.infectionTime = time.time()
 
-	#Fonction lancée lors de la collision entre 2 personnes
-	def collision(self, other):
-		if self.attributes["Infected"]:
-			#TODO : gérer la réduction du risque de propagation par les masques etc...
-			other.infection(self.virus.infectionChance(), self.virus.pathToJson)
-
 	def personUpdate(self):
-		if self.attributes["Infected"]:
+		if self.isInfected:
 			if time.time()-self.infectionTime >= self.virus.deathChance:
-				self.attributes["Alive"] = False
+				self.isAlive = False
 				self.isMoving = False
 				self.color = [0,0,0]
 

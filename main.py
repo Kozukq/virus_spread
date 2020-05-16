@@ -46,7 +46,7 @@ while 1 :
 	for person in persons:
 		person.personUpdate()
 		person.move(deltaTime)
-		print(person.attributes["Infected"])
+		#print(person.isInfected)
 		person.checkForCollisions(hitboxes, persons)
 
 	Render()
