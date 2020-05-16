@@ -5,10 +5,10 @@ import os
 from src.person import Person, generate
 
 #Pour gabriel qui utilise la magie noire afin de lancer les fenêtres sous windows#
-try:
-    os.environ["DISPLAY"]
-except:
-    os.environ["SDL_VIDEODRIVER"] = "dummy" 
+# try:
+#     os.environ["DISPLAY"]
+# except:
+#     os.environ["SDL_VIDEODRIVER"] = "dummy" 
 ##################################################################################
 
 color = {
@@ -17,41 +17,41 @@ color = {
 	"RED" : [255,0,0]
 }
 
+interface = ["menu","simulation"]
+
 class Display:
-	def __init__(self):
-		self.width = 640
-		self.height = 480
+	def __init__(self,width=640,height=480):
+		self.width = width
+		self.height = height
 		self.window = pygame.display.set_mode([self.width,self.height])
 		self.clock = pygame.time.Clock()
 
-display = Display()
+simulationWindow = Display()
+menuWindow = Display()
+currentWindow = interface[0]
+population = 20
+PersonList,HitboxList = generate(simulationWindow.window,population)
+PersonList[0].infection(1, "Virus Presets/Covid.json")
 
-#Génère n personnes 
-persons,hitboxes = generate(display.window,20)
-persons[0].infection(1, "Virus Presets/Covid.json")
+def menuRendering():
+	framerate = menuWindow.clock.tick(60)
+	simulationWindow.window.fill(color["BLACK"])
 
-#Fonction qui actualise l'affichage
-# def Render():
-# 	display.window.fill(color["WHITE"])
-# 	for person in persons :
-# 		person.draw()
-# 	pygame.display.flip()
+def personRendering():
+	framerate = simulationWindow.clock.tick(60)
+	simulationWindow.window.fill(color["WHITE"])
+	for person in PersonList:
+		person.personUpdate()
+		person.move(framerate)
+		person.checkForCollisions(HitboxList,PersonList)
+		person.draw()
 
 while 1 :
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT: 
-			sys.exit()
-
-	deltaTime = display.clock.tick(60)
-
-	display.window.fill(color["WHITE"])
-
-	for person in persons:
-		person.personUpdate()
-		person.move(deltaTime)
-		#print(person.isInfected)
-		person.checkForCollisions(hitboxes, persons)
-		person.draw()
-		
+			#sys.exit()
+			if currentWindow == interface[0] : currentWindow = interface[1]
+			elif currentWindow == interface[1] : currentWindow = interface[0]
+	if currentWindow == "menu" : menuRendering()
+	elif currentWindow == "simulation" : personRendering()
 	pygame.display.flip()
-	# Render()
