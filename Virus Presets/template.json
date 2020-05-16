@@ -1,20 +1,20 @@
-nom : facteurderisque[], immunité?, 
+nom : immunité?, facteursderisque[], 
 
-variole : ["aucun"],oui
-salmonella : 
-peste :
-rougeole :
-paludisme :
-fièvre jaune :
-grippe : 
-dengue : 
-choléra : 
-typhus : 
-polio : 
-sida : 
-chikungunya : 
-méningite : 
-gastro : 
-ebola :
-coronavirus :
-encéphalite :
+variole : oui
+salmonella : ?
+peste : ?
+rougeole : oui
+paludisme : bof
+fièvre jaune : oui
+grippe : non
+dengue : oui(plusieurs infections)
+choléra : oui
+typhus : oui
+polio : oui
+sida : non(mais maladie à vie)
+chikungunya : oui
+méningite : ?
+gastro : ?
+ebola : ?
+coronavirus : ?, ["cancer","diabète","hypertension","maladie cardiovasculaire","troubles respiratoires"]
+encéphalite : ?

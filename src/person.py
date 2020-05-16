@@ -113,16 +113,28 @@ class Person:
 			if decision(infectionChance):
 				self.virus = Virus(self.age,False, pathToJson)
 				self.isInfected = True
-				self.color = [255,0,0]
+				#self.color = [255,0,0]
 				self.infectionTime = time.time()
 
 	def personUpdate(self):
 		if self.isInfected:
 			if time.time()-self.infectionTime >= self.virus.deathChance:
 				self.isAlive = False
-				self.isMoving = False
-				self.color = [0,0,0]
+			else:
+				self.isCured = True
+		self.updateColor()
 
+	def updateColor(self):
+		if self.isAlive:
+			if self.isImmune:
+				self.color = [0,0,255]
+			elif self.isInfected:
+				self.color = [255,0,0]
+			elif self.isCured:
+				self.color = [0,255,0]
+		else:
+			self.color = [0,0,0]
+			self.isMoving = False
 
 def generate(window, n = 100):
 	persons = []

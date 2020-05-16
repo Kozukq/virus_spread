@@ -31,22 +31,27 @@ persons,hitboxes = generate(display.window,20)
 persons[0].infection(1, "Virus Presets/Covid.json")
 
 #Fonction qui actualise l'affichage
-def Render():
-	display.window.fill(color["WHITE"])
-	for person in persons :
-		person.draw()
-	pygame.display.flip()
+# def Render():
+# 	display.window.fill(color["WHITE"])
+# 	for person in persons :
+# 		person.draw()
+# 	pygame.display.flip()
 
 while 1 :
 	for event in pygame.event.get():
-		if event.type == pygame.QUIT: sys.exit()
+		if event.type == pygame.QUIT: 
+			sys.exit()
 
 	deltaTime = display.clock.tick(60)
+
+	display.window.fill(color["WHITE"])
 
 	for person in persons:
 		person.personUpdate()
 		person.move(deltaTime)
 		#print(person.isInfected)
 		person.checkForCollisions(hitboxes, persons)
-
-	Render()
+		person.draw()
+		
+	pygame.display.flip()
+	# Render()
