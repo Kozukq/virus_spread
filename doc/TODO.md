@@ -12,13 +12,24 @@ Traitement logique des personnes
 	- Plusieurs comportements différents lié à l'environnement qui influencent le déroulement de l'épidémie (fou furieux,parano,normal,...)
 
 Traitement logique de l'infection
-	- Gestion de la mort/soin de façon déterministe lors de l'infection : calcul de la probabilité de mourir (en fonction de l'âge de la personne) puis déclenchement d'un timer (défini dans le JSON du virus) qui changera son état (à soigné ou mort) à son échéance
-	- Gestion des masques et protections sur la propagation du virus
 	- Gestion de la distanciation sociale et du confinement
 
 Affichage graphique
 	- Rendre la gestion des collisions entre personnes plus naturelle et corriger les bugs
+		-Faire bounce uniquement une personne J'EN AI MARRE
 	- Plusieurs environnements dans lesquels les personnes se déplacent et se comportent de façon différente
-	- Graphique temps réel représentant la distribution des états (sain/infecté/soigné/mort) de la population de la simulation en cours
+	> Graphique temps réel représentant la distribution des états (sain/infecté/soigné/mort) de la population de la simulation en cours
+		+ Gestion des statistiques de la simulation
+		- Affichage des statistiques dans la fenêtre
+		- Affichage du graphique
 
-# Tâches accomplies
+# Tâches accomplies 
+
+(Dimanche 17)
+Traitement logique de l'infection
+	- Gestion de la mort/soin de façon déterministe lors de l'infection : calcul de la probabilité de mourir (en fonction de l'âge de la personne) puis déclenchement d'un timer (défini dans le JSON du virus) qui changera son état (à soigné ou mort) à son échéance
+		- Changer la classe virus pour qu'elle gère la probabilité de mourrir selon l'age
+		- Changer la fonction infection pour déterminer le dénouement d'une personne
+		- Gérer les timer
+	- Gestion des comorbidités sur la dangerosité du virus
+	- Gestion des masques sur la propagation du virus

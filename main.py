@@ -10,41 +10,64 @@ color = {
 	"RED" : [255,0,0]
 }
 
-interface = ["menu","simulation"]
-
 class Display:
-	def __init__(self,width=640,height=480):
+	def __init__(self,width=740,height=580):
 		self.width = width
 		self.height = height
 		self.window = pygame.display.set_mode([self.width,self.height])
 		self.clock = pygame.time.Clock()
 
-simulationWindow = Display()
-menuWindow = Display()
-currentWindow = interface[1]
-population = 20
-PersonList,HitboxList = generate(simulationWindow.window,population)
-PersonList[0].infection(1, "Virus Presets/Covid.json")
+#Classe permettant de stocker les différentes statistiques
+class Stats:
+	def __init__(self, personList):
+		self.healthy = personList[:]
+		self.infected = []
+		self.dead = []
+		self.cured = []
 
-def menuRendering():
-	framerate = menuWindow.clock.tick(60)
-	menuWindow.window.fill(color["BLACK"])
+	def statUpdate(self):
+		#self.debug()
+		for person in self.healthy:
+			if person.isInfected:
+				self.infected.append(person)
+				self.healthy.remove(person)
+		for person in self.infected:
+			if not person.isAlive:
+				self.dead.append(person)
+				self.infected.remove(person)
+			elif person.isCured:
+				self.cured.append(person)
+				self.infected.remove(person)
+
+	def debug(self):
+		print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+		print("Healthy : ", len(self.healthy))
+		print("Infected : ", len(self.infected))
+		print("Dead : ", len(self.dead))
+		print("Cured : ", len(self.cured))
+
+window = Display()
+simulation = pygame.Rect(0,0,640, 480)
+population = 200
+PersonList,HitboxList = generate(simulation,population)
+PersonList[0].infection(1, "Virus Presets/coronavirus.json")
+stats = Stats(PersonList)
 
 def personRendering():
-	framerate = simulationWindow.clock.tick(60)
-	simulationWindow.window.fill(color["WHITE"])
+	framerate = window.clock.tick(60)
+	window.window.fill(color["WHITE"])
+	pygame.draw.rect(window.window, [0,0,0], simulation, 1)
 	for person in PersonList:
 		person.personUpdate()
 		person.move(framerate)
 		person.checkForCollisions(HitboxList,PersonList)
-		person.draw()
+		person.draw(window.window)
+	
 
 while 1 :
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT: 
 			sys.exit()
-			#if currentWindow == interface[0] : currentWindow = interface[1]
-			#elif currentWindow == interface[1] : currentWindow = interface[0]
-	if currentWindow == "menu" : menuRendering()
-	elif currentWindow == "simulation" : personRendering()
+	personRendering()
+	stats.statUpdate()
 	pygame.display.flip()
