@@ -89,7 +89,7 @@ class Person:
 		#collision left
 		if index == 0:
 			self.direction.x = -self.direction.x
-			self.position.x -= 0.5
+			#self.position.x -= 0.5
 		#collision right 
 		if index == 1:
 			self.direction.x = -self.direction.x
@@ -97,7 +97,7 @@ class Person:
 		#collision top
 		if index == 2:
 			self.direction.y = -self.direction.y
-			self.position.y -= 0.5
+			#self.position.y -= 0.5
 		#collision bottom	
 		if index == 3:
 			self.direction.y = -self.direction.y
