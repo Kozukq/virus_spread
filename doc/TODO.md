@@ -16,7 +16,7 @@ Traitement logique de l'infection
 
 Affichage graphique
 	- Rendre la gestion des collisions entre personnes plus naturelle et corriger les bugs
-		-Faire bounce uniquement une personne J'EN AI MARRE
+		- Refaire entièrement le système de collision en utilisant une classe Hitbox
 	- Plusieurs environnements dans lesquels les personnes se déplacent et se comportent de façon différente
 	> Graphique temps réel représentant la distribution des états (sain/infecté/soigné/mort) de la population de la simulation en cours
 		+ Gestion des statistiques de la simulation
