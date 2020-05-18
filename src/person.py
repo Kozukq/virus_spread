@@ -68,41 +68,28 @@ class Person:
 
 	def draw(self, Window):
 		pygame.draw.circle(Window, self.color, [int(self.position.x), int(self.position.y)], int(self.radius), self.width)
-		pygame.draw.rect(Window, [0,0,0], self.hitbox,1)
+		#pygame.draw.rect(Window, [0,0,0], self.hitbox,1)
 
 	def moveTowards(self, target : pygame.math.Vector2, speed : float):
 		self.position += (target - self.position).normalize() * speed
 
-	# def bounce(self, vert):
-	# 	if not self.timestamp:
-	# 		self.timestamp = time.time()
-	# 		if vert:
-	# 			self.direction.x = -self.direction.x
-	# 		else:
-	# 			self.direction.y = -self.direction.y
-	# 	else:
-	# 		if time.time()-self.timestamp > 0.01:
-	# 			self.timestamp = None
-
-
 	def bounce(self, index):
 		#collision left
 		if index == 0:
-			self.direction.x = -self.direction.x
-			#self.position.x -= 0.5
+			self.direction.x = abs(self.direction.x)
+			
 		#collision right 
 		if index == 1:
-			self.direction.x = -self.direction.x
-			#self.position.x += 1
+			self.direction.x = -(abs(self.direction.x))
+			
 		#collision top
 		if index == 2:
-			self.direction.y = -self.direction.y
-			#self.position.y -= 0.5
+			self.direction.y = abs(self.direction.y)
+			
 		#collision bottom	
 		if index == 3:
-			self.direction.y = -self.direction.y
-			#self.position.y += 1
-
+			self.direction.y = -(abs(self.direction.y))
+			
 
 
 	def move(self, deltaTime):
@@ -110,13 +97,13 @@ class Person:
 			self.position += self.direction * self.speed / deltaTime
 			self.hitbox.center = (self.position.x, self.position.y)
 
-			if self.position.x < 0:
+			if self.position.x < self.rect.left:
 				self.bounce(0)
-			elif self.position.x > 640:
+			elif self.position.x > self.rect.right:
 				self.bounce(1)
-			if self.position.y < 0:
+			if self.position.y < self.rect.top:
 				self.bounce(2)
-			elif self.position.y > 480:
+			elif self.position.y > self.rect.bottom:
 				self.bounce(3)
 
 			# if self.position.x >= self.rect.right-(self.radius/2) or self.position.x <= self.rect.left+(self.radius/2):
@@ -133,11 +120,11 @@ class Person:
 		if index > -1:
 
 			if (self.hitbox.center[0] + self.hitbox.right) > (list2[index].center[0] - list2[index].left) :
-				self.bounce(0)
-			elif self.hitbox.center[0] - self.hitbox.left < list2[index].center[0] + list2[index].right:
 				self.bounce(1)
+			elif self.hitbox.center[0] - self.hitbox.left < list2[index].center[0] + list2[index].right:
+				self.bounce(0)
 			
-			if self.hitbox.center[1] - self.hitbox.top < list2[index].center[1] + list2[index].bottom:
+			elif self.hitbox.center[1] - self.hitbox.top < list2[index].center[1] + list2[index].bottom:
 				self.bounce(2)
 			elif self.hitbox.center[1] + self.hitbox.bottom > list2[index].center[1] - list2[index].top:
 				self.bounce(3)
