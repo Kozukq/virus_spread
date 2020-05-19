@@ -97,42 +97,32 @@ class Person:
 			self.position += self.direction * self.speed / deltaTime
 			self.hitbox.center = (self.position.x, self.position.y)
 
-			if self.position.x < self.rect.left:
+			if self.position.x < self.rect.left + self.radius:
 				self.bounce(0)
-			elif self.position.x > self.rect.right:
+			elif self.position.x > self.rect.right - self.radius:
 				self.bounce(1)
-			if self.position.y < self.rect.top:
+			if self.position.y < self.rect.top + self.radius:
 				self.bounce(2)
-			elif self.position.y > self.rect.bottom:
+			elif self.position.y > self.rect.bottom - self.radius:
 				self.bounce(3)
-
-			# if self.position.x >= self.rect.right-(self.radius/2) or self.position.x <= self.rect.left+(self.radius/2):
-			# 	self.bounce(True)
-			# if self.position.y >= self.rect.bottom or self.position.y-(self.radius/2) <= self.rect.bottom+(self.radius/2):
-			# 	self.bounce(False)
 
 
 	def checkForCollisions(self, list, persons):
 		list2 = list[:]
 		list2.remove(self.hitbox)
-		
+
 		index = self.hitbox.collidelist(list2)
 		if index > -1:
 
-			if (self.hitbox.center[0] + self.hitbox.right) > (list2[index].center[0] - list2[index].left) :
-				self.bounce(1)
-			elif self.hitbox.center[0] - self.hitbox.left < list2[index].center[0] + list2[index].right:
-				self.bounce(0)
-			
-			elif self.hitbox.center[1] - self.hitbox.top < list2[index].center[1] + list2[index].bottom:
-				self.bounce(2)
-			elif self.hitbox.center[1] + self.hitbox.bottom > list2[index].center[1] - list2[index].top:
-				self.bounce(3)
 
-			# if self.hitbox.center[0] - self.hitbox.left < list2[index].center[0]+list2[index].right or self.hitbox.center[0] + self.hitbox.right > list2[index].center[0]-list2[index].left:
-			# 	self.bounce(True)
-			# if self.hitbox.center[1] - self.hitbox.top < list2[index].center[1]+list2[index].bottom or self.hitbox.center[1] + self.hitbox.bottom > list2[index].center[1]-list2[index].top:
-			# 	self.bounce(False)
+			if self.hitbox.center[0] > list2[index].center[0] and self.hitbox.left < list2[index].right:
+				self.bounce(0)
+			if self.hitbox.center[0] < list2[index].center[0] and self.hitbox.right > list2[index].left:
+				self.bounce(1)
+			if self.hitbox.center[1] > list2[index].center[1] and self.hitbox.top < list2[index].bottom:
+				self.bounce(2)
+			if self.hitbox.center[1] < list2[index].center[1] and self.hitbox.bottom > list2[index].top:
+				self.bounce(3)
 
 			if persons[index].isInfected and persons[index].isAlive:
 				self.infection(persons[index].virus.contagiousRate, persons[index].virus.pathToJson)
@@ -151,7 +141,7 @@ class Person:
 				self.willDie = determineFrom(self.virus.deathRate)
 				self.isInfected = True
 
-	def personUpdate(self):
+	def update(self):
 		if self.isInfected:
 			if self.willDie == True:
 				if time.time()-self.infectionTime >= self.virus.deathTimer:
