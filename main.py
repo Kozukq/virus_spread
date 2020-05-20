@@ -3,6 +3,7 @@ import sys
 import time
 import os
 from src.person import Person, generate
+from src.menu import Menu
 
 color = {
 	"WHITE" : [255,255,255],
@@ -69,10 +70,13 @@ window = Window()
 statRect = pygame.Rect(10,0,window.width,100)
 simuRect = pygame.Rect(0,statRect.bottom,window.width,window.height-statRect.height)
 
-population = 200
+population = 20
 PersonList,HitboxList = generate(simuRect,population)
 PersonList[0].infection(1, "Virus Presets/coronavirus.json")
 stats = Stats(PersonList)
+
+menu = Menu()
+toggleMenu = False
 
 def personRendering():
 	pygame.draw.rect(window.display,color["BLACK"],simuRect,1)
@@ -86,12 +90,28 @@ def statRendering():
 	stats.update()
 	stats.draw(statRect,window.display)
 
+def menuRendering():
+	if toggleMenu == True:
+		menu.draw(window.display)
+
+
+def togglePause():
+	for person in PersonList:
+		person.isMoving = not person.isMoving
+		person.isPaused = not person.isPaused
+
 while 1 :
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT: 
 			sys.exit()
+		if event.type == pygame.KEYDOWN:
+			if event.key == pygame.K_a:
+				toggleMenu = not toggleMenu
+				togglePause()
 	framerate = window.clock.tick(60)
 	window.display.fill(color["WHITE"])
 	personRendering()
 	statRendering()
+	menuRendering()
+	
 	pygame.display.flip()

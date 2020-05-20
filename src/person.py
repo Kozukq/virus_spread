@@ -39,16 +39,19 @@ class Person:
 		self.radius = 7
 		self.color = [115, 108, 237]
 		self.width = 0
-		self.timestamp = None
 		#Vecteur normalisé représentant la direction
 		self.direction = pygame.math.Vector2(random.uniform(-1,1), random.uniform(-1, 1)).normalize()
-		self.hitbox = pygame.Rect((self.position.x)-5, (self.position.y)-5, self.radius*1.3, self.radius*1.3)
+		self.hitbox = pygame.Rect((self.position.x)-5, (self.position.y)-5, self.radius*1.5, self.radius*1.5)
 		self.speed = 20
 		self.isMoving = True
+		self.isPaused = False
+		self.pauseDuration = 0
+		self.pauseMarker = None
 
 		self.virus = None
 		self.infectionTime = None
 		self.willDie = None
+
 
 
 	#Méthode qui affiche les infos de la personne dans la console
@@ -124,8 +127,12 @@ class Person:
 			if self.hitbox.center[1] < list2[index].center[1] and self.hitbox.bottom > list2[index].top:
 				self.bounce(3)
 
-			if persons[index].isInfected and persons[index].isAlive:
-				self.infection(persons[index].virus.contagiousRate, persons[index].virus.pathToJson)
+			if self.isInfected and self.isAlive:
+				persons[index].infection(self.virus.contagiousRate, self.virus.pathToJson)
+
+
+			# if persons[index].isInfected and persons[index].isAlive:
+			# 	self.infection(persons[index].virus.contagiousRate, persons[index].virus.pathToJson)
 
 	########Infection########
 
@@ -142,14 +149,22 @@ class Person:
 				self.isInfected = True
 
 	def update(self):
-		if self.isInfected:
-			if self.willDie == True:
-				if time.time()-self.infectionTime >= self.virus.deathTimer:
-					self.isAlive = False
-			else:
-				if time.time()-self.infectionTime >= self.virus.healTimer:
-					self.isInfected = False
-					self.isCured = True
+		#Gestion du temps de pause :
+		if self.isPaused:
+			if not self.pauseMarker:
+				self.pauseMarker = time.time()
+		else:
+			if self.pauseMarker:
+				self.pauseDuration = time.time() - self.pauseMarker
+				self.pauseMarker = None
+			if self.isInfected == True:
+				if self.willDie == True:
+					if time.time() - self.infectionTime - self.pauseDuration >= self.virus.deathTimer:
+						self.isAlive = False
+				else:
+					if time.time() - self.infectionTime - self.pauseDuration >= self.virus.healTimer:
+						self.isInfected = False
+						self.isCured = True
 		self.updateColor()
 
 	def updateColor(self):
