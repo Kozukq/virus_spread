@@ -2,10 +2,15 @@ import json
 
 #Classe permettant de stocker les diverses informations a propos du virus
 class Virus:
-	def __init__(self, age : int, healthIssues : bool, pathToJson):
-		self.pathToJson = pathToJson
+	def __init__(self, age : int, healthIssues : bool, JSON):
+		self.JSON = JSON
+		self.name = None
+		self.contagiousRate = 0
+		self.deathRate = 0
+		self.deathTimer = 0
+		self.healTimer = 0
 		#open the json file	
-		with open(pathToJson) as file:
+		with open(JSON) as file:
 			data = json.load(file)
 			self.name = data["name"]
 			self.contagiousRate = data["contagiousRate"]

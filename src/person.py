@@ -11,12 +11,6 @@ def determineFrom(probability):
 
 namesList = ["Ben", "Gabriel", "Jupiler", "Passepartout", "Bill", "François", "Toumou", "Jacques-Etienne", "Le Montagnard", "Le Pingouin", "Oualoulou", "Chewbacca", "Bubul"]		
 
-#diseases = []
-
-#Probabilité que la personne aie des problèmes de santé
-sicknessRate = 0.25
-
-
 #Classe permettant de représenter une personne
 class Person:
 	def __init__(self, Rect):
@@ -26,8 +20,8 @@ class Person:
 		self.isAlive = True
 		self.isInfected = False
 		self.isCured = False
-		self.healthIssues = determineFrom(sicknessRate)
-		self.equipment = { "mask" : False }
+		self.healthIssues = determineFrom(0.25)
+		self.equipment = { "mask" : determineFrom(0.5) }
 
 		#Comportement de la personne
 		self.behavior = behaviorTypes["Cautious"]
@@ -37,7 +31,7 @@ class Person:
 		self.rect = Rect
 		self.position = pygame.math.Vector2(random.randint(self.rect.left+20, self.rect.right-20), random.randint(self.rect.top+20,self.rect.bottom-20))
 		self.radius = 7
-		self.color = [115, 108, 237]
+		self.color = [200,200,200]
 		self.width = 0
 		#Vecteur normalisé représentant la direction
 		self.direction = pygame.math.Vector2(random.uniform(-1,1), random.uniform(-1, 1)).normalize()
@@ -110,40 +104,49 @@ class Person:
 				self.bounce(3)
 
 
-	def checkForCollisions(self, list, persons):
-		list2 = list[:]
-		list2.remove(self.hitbox)
-
-		index = self.hitbox.collidelist(list2)
-		if index > -1:
-
-
-			if self.hitbox.center[0] > list2[index].center[0] and self.hitbox.left < list2[index].right:
+	def checkForCollisions(self, OriginalHitboxList, PersonList):
+		HitboxList = OriginalHitboxList[:]
+		HitboxList.remove(self.hitbox)
+		firstCollision = self.hitbox.collidelist(HitboxList)
+		if firstCollision > -1:
+			if self.hitbox.center[0] > HitboxList[firstCollision].center[0] and self.hitbox.left < HitboxList[firstCollision].right:
 				self.bounce(0)
-			if self.hitbox.center[0] < list2[index].center[0] and self.hitbox.right > list2[index].left:
+			if self.hitbox.center[0] < HitboxList[firstCollision].center[0] and self.hitbox.right > HitboxList[firstCollision].left:
 				self.bounce(1)
-			if self.hitbox.center[1] > list2[index].center[1] and self.hitbox.top < list2[index].bottom:
+			if self.hitbox.center[1] > HitboxList[firstCollision].center[1] and self.hitbox.top < HitboxList[firstCollision].bottom:
 				self.bounce(2)
-			if self.hitbox.center[1] < list2[index].center[1] and self.hitbox.bottom > list2[index].top:
+			if self.hitbox.center[1] < HitboxList[firstCollision].center[1] and self.hitbox.bottom > HitboxList[firstCollision].top:
 				self.bounce(3)
 
-			if self.isInfected and self.isAlive:
-				persons[index].infection(self.virus.contagiousRate, self.virus.pathToJson)
+			if self.isAlive and self.isInfected:
+				for person in PersonList:
+					if person.hitbox == HitboxList[firstCollision]:
+						person.infection(self.virus)
 
+			# if self.isInfected and self.isAlive:
+			# 	PersonList[firstCollision].infection(self.virus.contagiousRate, self.virus.pathToJson)
 
 			# if persons[index].isInfected and persons[index].isAlive:
 			# 	self.infection(persons[index].virus.contagiousRate, persons[index].virus.pathToJson)
 
 	########Infection########
 
+	def firstInfection(self,JSON):
+		self.virus = Virus(self.age,self.healthIssues,JSON)
+		self.infectionTime = time.time()
+		self.willDie = determineFrom(self.virus.deathRate)
+		self.isInfected = True
+
+
 	#Méthode lancée chaque cycle par une autre personne lorsqu'elle rentre en contact avec la personne courante.
 	#Infecte la personne courante selon la chance d'infection passée en paramètre et avec le virus également passé en paramètre. 
-	def infection(self, contagiousRate, pathToJson):
+	def infection(self,virus):
+		contagiousRate = virus.contagiousRate
 		if self.isAlive and not self.isInfected and not self.isCured:
 			if self.equipment["mask"] == True :
-				contagiousRate / 2
+				contagiousRate = 0
 			if determineFrom(contagiousRate) == True :
-				self.virus = Virus(self.age,self.healthIssues,pathToJson)
+				self.virus = Virus(self.age,self.healthIssues,virus.JSON)
 				self.infectionTime = time.time()
 				self.willDie = determineFrom(self.virus.deathRate)
 				self.isInfected = True
@@ -169,6 +172,8 @@ class Person:
 
 	def updateColor(self):
 		if self.isAlive:
+			if self.equipment["mask"] == True :
+				self.color = [150,150,150]
 			if self.isInfected:
 				self.color = [255,0,0]
 			elif self.isCured:
@@ -177,12 +182,12 @@ class Person:
 			self.color = [0,0,0]
 			self.isMoving = False
 
-def generate(Rect, n = 100):
-	persons = []
-	while n > 0:
-		persons.append(Person(Rect))
-		n -= 1
-	hitboxes = []
-	for person in persons:
-		hitboxes.append(person.hitbox)
-	return persons, hitboxes
+# def generate(Rect, n = 100):
+# 	persons = []
+# 	while n > 0:
+# 		persons.append(Person(Rect))
+# 		n -= 1
+# 	hitboxes = []
+# 	for person in persons:
+# 		hitboxes.append(person.hitbox)
+# 	return persons, hitboxes
