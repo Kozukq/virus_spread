@@ -30,6 +30,7 @@ print("\n\n**********IDICATION DES COULEURS**********\n")
 print("=====VERT : personne non malade")
 print("=====JAUNE : personne non malade confiné")
 print("=====ROUGE : personne malade")
+print("=====BLEU : personne non malade contaminé au cour de la simulation")
 print("=====ORANGE : personne malade confiné")
 print("=====NOIR : personne décidé")
 
@@ -221,7 +222,7 @@ def Collision_Detect():
                 if sqrt( ((c1.x - c2.x) ** 2)  +  ((c1.y - c2.y) ** 2)) <= (c1.radius + c2.radius):
                     Collision(c1, c2)
                     if c1.color == COLOR["COLOR_BAD"] and c2.color == COLOR["COLOR_GOOD"]:
-                        c2.color = COLOR["COLOR_BAD"]
+                        c2.color = COLOR["COLOR_CONTAMINEE"]
 
 
 
@@ -266,6 +267,14 @@ for j in range(nombre_P_I_Confinee):
 afficher(Personnes)
 affichage_Resume()
 
+#Rappel des indication de couleurs
+print("\n\n**********IDICATION DES COULEURS**********\n")
+print("=====VERT : personne non malade")
+print("=====JAUNE : personne non malade confiné")
+print("=====ROUGE : personne malade")
+print("=====BLEU : personne non malade contaminé au cour de la simulation")
+print("=====ORANGE : personne malade confiné")
+print("=====NOIR : personne décidé")
 
 def main():
     while True:
