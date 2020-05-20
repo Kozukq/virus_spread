@@ -1,23 +1,7 @@
-from random import randrange
+from random import randrange, randint
 from random import choice
 
 from CONSTANTES import *
-
-
-def position():
-    """
-    Fonctions qui donnes les positions initiales
-    de chaques cercles
-    """
-    #Cela permet de générer des nombres aléatoire pour la simulation
-    #Ainsi chaque personnes sera placé aleatoirement
-    x = randrange(8, 632)
-    x = int(x)
-    y = randrange(8, 432)
-    y = int(y)
-
-    return x,y
-
 
 def choice_prenom():
     """
@@ -32,7 +16,7 @@ def get_comorbidity():
         Fonction qui détermine la comorbidité 
         d'une personne de manière aléatoire 
     """
-    number = randrange(1,3)
+    number = randint(1,3)
     number = int(number)
 
     if number == 1:
@@ -66,5 +50,4 @@ def afficher(*parametres, sep='', fin='\n'):
     chaine += fin
     # On affiche l'ensemble
     print(chaine, end='')
-
-
+    

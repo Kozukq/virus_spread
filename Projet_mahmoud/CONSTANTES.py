@@ -4,39 +4,28 @@
 #Couleur du fond
 WHITE = ( 255, 255, 255)
 
-"""
-Taille de la fenêtre
-"""
-WIDTH = 640
-HEIGHT = 440
-
+RADIUS = 8
 
 """
 Couleur en fonction de l'état de la personne
 """
 COLOR = {
-    "COLOR_GOOD": (88, 214, 141),
-    "COLOR_BAD": (255, 51, 79),
-    "COLOR_DEAD": (255, 255, 255),
+    "COLOR_GOOD": (88, 214, 141),#Green
+    "COLOR_GOOD_CONF" : (241, 241, 15),#Yellow
+    "COLOR_BAD": (255, 51, 79),#Red
+    "COLOR_BAD_CONF": (241, 121, 15),#Orange
+    "COLOR_DEAD": (0, 0, 0),#Black
+    "COLOR_IMMUNE": (63, 3, 252),#Blue
 }
 
 """
-Dictionnaire de probabiltés
+Dictionnaire de l'état d'une personne
 """
-dico_proba_malade = {
-    "PEU-A-RISQUE" : 0.25,
-    "RISQUE-MODEREE" : 0.5,
-    "RISQUE-HAUT" : 0.75
+ETAT = {
+    "VIVANT": "Vivant",
+    "MORT": "Mort",
 }
 
-"""
-Dictionnaire des types de santé
-"""
-dico_maladie = {
-    "1": "Aucun problème",
-    "2": "Santé fragile",
-    "3": "Comorbidité forte"
-}
 
 """
 Dictionnaire des prénoms
