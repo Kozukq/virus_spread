@@ -12,10 +12,10 @@ Couleur en fonction de l'état de la personne
 COLOR = {
     "COLOR_GOOD": (88, 214, 141),#Green
     "COLOR_GOOD_CONF" : (241, 241, 15),#Yellow
+    "COLOR_CONTAMINEE" : (42, 15, 241),#Bleu
     "COLOR_BAD": (255, 51, 79),#Red
     "COLOR_BAD_CONF": (241, 121, 15),#Orange
-    "COLOR_DEAD": (0, 0, 0),#Black
-    "COLOR_IMMUNE": (63, 3, 252),#Blue
+    "COLOR_DEAD": (0 ,0 ,0),#Black
 }
 
 """

@@ -34,12 +34,12 @@ print("=====BLEU : personne non malade contaminé au cour de la simulation")
 print("=====ORANGE : personne malade confiné")
 print("=====NOIR : personne décidé")
 
-nombre_P_N_Malade = input("\n\n**Entrez le nombre de personnes non malade (VERT): ")
+print("\n**********PARAMETRES DE LA SIMULATION**********")
+nombre_P_N_Malade = input("\n**Entrez le nombre de personnes non malade (VERT): ")
 nombre_P_N_M_Confinee = input("**Entrez le nombre de personnes non malade confinée (JAUNE): ")
 nombre_P_Infectee = input("**Entrez le nombre de personnes malade (ROUGE): ")
 nombre_P_I_Confinee = input("**Entrez le nombre de personnes malade confinée (ORANGE): ")
-
-vitesse = input("\nChoisissez la vitesse de déplacement des personnes (1-2-3) : ")
+vitesse = input("**Choisissez la vitesse de déplacement des personnes (1-2-3) : ")
 
 try:
     nombre_P_N_Malade = int(nombre_P_N_Malade)
@@ -59,7 +59,7 @@ try:
     assert WIDTH > 439
 
 except ValueError as type_exception:
-    print("Vous avez saisi autre chose que un nombre.")
+    print("Vous avez saisi autre chose que un nombre dans l'un des champs.")
     exit(1)
 except AssertionError:
     print("L'un des nombre saisi est pas convenable!!")
@@ -67,8 +67,25 @@ except AssertionError:
 
 nbT = nombre_P_N_Malade + nombre_P_N_M_Confinee + nombre_P_Infectee + nombre_P_I_Confinee 
 
-if nbT > 200 or vitesse > 3 or WIDTH > 1280 or HEIGHT > 880:
-    print("Vous avez saisi une donnée fausse!")
+if nbT > 200:
+    print("\n         **********************************")
+    print("Vous avez dépassez la limite maximal de personnes (200)!!")
+    print("         **********************************\n")
+    exit(1)
+elif vitesse > 3:
+    print("\n         **********************************")
+    print("       Vous avez saisez une vitesse incorecte!!")
+    print("         **********************************\n")
+    exit(1)
+elif WIDTH > 1280 or HEIGHT > 880:
+    print("\n       **********************************\n")
+    print("Vous avez saisez une résolution de la surface supérieur à la limite autorisé!!")
+    print("         **********************************\n")
+    exit(1)
+elif nbT > 150 and vitesse < 3:
+    print("\n                 **********************************")
+    print("     Vous avez demandez un trop grand nombre de personnes ({})\n      vous devez choisirs la vitesse 3 au lieu de {} réessayez.".format(nbT, vitesse))
+    print("                 **********************************\n")
     exit(1)
 else:
     if vitesse == 1:
@@ -76,14 +93,12 @@ else:
     elif vitesse == 2:
         v = 0.1
     elif vitesse == 3:
-        v = 0.2
-
+        v = 0.6
 
 pygame.init()
 
 pygame.display.set_caption("COVID-19 ({}, {})".format(WIDTH, HEIGHT))
 Surface = pygame.display.set_mode((WIDTH, HEIGHT))
-
 #Liste de circles
 Personnes = []
 
@@ -107,8 +122,8 @@ class Circle:
         self.comorbidity = get_comorbidity()
         self.etat = ETAT[vie]
         self.color = COLOR[couleur]
-        self.x = randint(self.radius, WIDTH - self.radius)#La position x aleatoire du début
-        self.y = randint(self.radius, HEIGHT - self.radius)#La position y aleatoire du début
+        self.pos_x = randint(self.radius, WIDTH - self.radius)#La position x aleatoire du début
+        self.pos_y = randint(self.radius, HEIGHT - self.radius)#La position y aleatoire du début
         self.speedx = v * (random() + 1.0)#Renvoie le prochain nombre à virgule flottante aléatoire dans la plage [0,0, 1,0].
         self.speedy = v * (random() + 1.0)
  
@@ -130,7 +145,7 @@ def Draw():
     """
     Surface.fill(WHITE)
     for circle in Personnes:
-        pygame.draw.circle(Surface, circle.color, (int(circle.x), int(circle.y)), circle.radius)
+        pygame.draw.circle(Surface, circle.color, (int(circle.pos_x), int(circle.pos_y)), circle.radius)
     pygame.display.flip()
 
 
@@ -139,8 +154,8 @@ def Move():
         Fonction qui permet de bouger les cercles
     """
     for element in Personnes:
-        element.x += element.speedx
-        element.y += element.speedy
+        element.pos_x += element.speedx
+        element.pos_y += element.speedy
 
 
 def Collision(C1,C2):
@@ -152,8 +167,8 @@ def Collision(C1,C2):
         On assigne a la vitesse de chaque pos X et Y grâce a la trigo cos et sin et tan
     """
     C1Speed = sqrt((C1.speedx**2) + (C1.speedy**2))#Sert a garder la même vitesse après collision
-    XDiff = -(C1.x - C2.x)
-    YDiff = -(C1.y - C2.y)
+    XDiff = -(C1.pos_x - C2.pos_x)
+    YDiff = -(C1.pos_y - C2.pos_y)
 
     if XDiff > 0:#On teste Si la diff entre deux pos_x > 0
 
@@ -210,27 +225,41 @@ def Collision_Detect():
     """
     #Boucle qui détérmine la collision d'un cercle au bord de la fenêtre
     for circle in Personnes:
-        if circle.x < circle.radius or circle.x > WIDTH - circle.radius:#Gère la collision a droite et à gauche de la surface
+        if circle.pos_x < circle.radius or circle.pos_x > WIDTH - circle.radius:#Gère la collision a droite et à gauche de la surface
             circle.speedx *= -1
-        if circle.y < circle.radius or circle.y > HEIGHT - circle.radius:#Gère la collision en haut et en bas de la surface    
+        if circle.pos_y < circle.radius or circle.pos_y > HEIGHT - circle.radius:#Gère la collision en haut et en bas de la surface    
             circle.speedy *= -1
             
     #Boucle qui détérmine la collision entre deux cercles
     for c1 in Personnes:
         for c2 in Personnes:
             if c1 != c2:
-                if sqrt( ((c1.x - c2.x) ** 2)  +  ((c1.y - c2.y) ** 2)) <= (c1.radius + c2.radius):
+                if sqrt( ((c1.pos_x - c2.pos_x) ** 2)  +  ((c1.pos_y - c2.pos_y) ** 2)) <= (c1.radius + c2.radius):
                     Collision(c1, c2)
-                    if c1.color == COLOR["COLOR_BAD"] and c2.color == COLOR["COLOR_GOOD"]:
-                        c2.color = COLOR["COLOR_CONTAMINEE"]
-
+                    #testes de contaminations
+                    if c1.color == COLOR["COLOR_GOOD"] and c2.color == COLOR["COLOR_BAD"] or c1.color == COLOR["COLOR_GOOD"] and c2.color == COLOR["COLOR_CONTAMINEE"]:
+                        c1.color = COLOR["COLOR_CONTAMINEE"]
+                    if c1.color == COLOR["COLOR_GOOD_CONF"] and c2.color == COLOR["COLOR_BAD"]:
+                        c1.color == COLOR["COLOR_GOOD_CONF"]
+                    if c1.color == COLOR["COLOR_BAD_CONF"] and c2.color == COLOR["COLOR_BAD"] or c1.color == COLOR["COLOR_BAD_CONF"] and c2.color == COLOR["COLOR_GOOD"]:
+                        c1.color == COLOR["COLOR_BAD_CONF"]
+                    if c1.color == COLOR["COLOR_CONTAMINEE"] and c1.comorbidity == "RISQUE-HAUT":
+                        c1.color = COLOR["COLOR_DEAD"]
+                        c1.speedx = 0
+                        c1.speedy = 0
+                    if c2.color == COLOR["COLOR_CONTAMINEE"] and c2.comorbidity == "RISQUE-HAUT":
+                        c2.color = COLOR["COLOR_DEAD"]
+                        c2.speedx = 0
+                        c2.speedy = 0
 
 
 def EXIT():
-    keystate = pygame.key.get_pressed()
+    quitter = pygame.key.get_pressed()
     for event in pygame.event.get():
-        if event.type == QUIT or keystate[K_ESCAPE]:
+        if event.type == QUIT or quitter[K_ESCAPE]:
+            print("AU REVOIR")
             pygame.quit(); sys.exit()
+        
 
 
 #Boucle qui ajoute les cercles correspondant dans la liste Personnes
@@ -275,6 +304,7 @@ print("=====ROUGE : personne malade")
 print("=====BLEU : personne non malade contaminé au cour de la simulation")
 print("=====ORANGE : personne malade confiné")
 print("=====NOIR : personne décidé")
+
 
 def main():
     while True:
