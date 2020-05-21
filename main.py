@@ -160,8 +160,8 @@ while 1 :
 
 	if window.scene == "MENU" :
 		menu.render(window)
-		if menu.hasClicked():
-			window.scene = "SIMULATION"
+		# if menu.hasClicked():
+		# 	window.scene = "SIMULATION"
 	elif window.scene == "SIMULATION" :
 		if simulation.isStarted == True :
 			simulation.run(framerate)
