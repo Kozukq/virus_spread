@@ -148,9 +148,9 @@ while 1 :
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT: 
 			sys.exit()
-		if window.scene == "MENU" and event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_RETURN:
-					window.scene = "SIMULATION"
+		# if window.scene == "MENU" and event.type == pygame.KEYDOWN:
+		# 		if event.key == pygame.K_RETURN:
+		# 			window.scene = "SIMULATION"
 		# if event.type == pygame.KEYDOWN:
 		# 	if event.key == pygame.K_a:
 		# 		toggleMenu = not toggleMenu
@@ -160,6 +160,8 @@ while 1 :
 
 	if window.scene == "MENU" :
 		menu.render(window)
+		if menu.hasClicked():
+			window.scene = "SIMULATION"
 	elif window.scene == "SIMULATION" :
 		if simulation.isStarted == True :
 			simulation.run(framerate)
