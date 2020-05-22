@@ -40,7 +40,7 @@ class Stats:
 		self.textRect = pygame.Rect(self.statRect.left,self.statRect.top,200,self.statRect.height)
 		self.graphRect = pygame.Rect(self.textRect.right+50,self.statRect.top+10,self.statRect.width-self.textRect.width-100,self.statRect.height-20)
 		self.population = population
-		self.lastLinePosition = self.graphRect.left+1
+		self.lastLinePosition = self.graphRect.left
 		self.graphLines = []
 		self.window = window
 
@@ -72,17 +72,11 @@ class Stats:
 		drawingRect = drawingRect.move(0,self.fontSize)
 		self.window.display.blit(text_cured,drawingRect)
 
+	def lineLength(self,status):
+		return (len(status) / self.population) * (self.graphRect.height-2)
 
 	def graphUpdate(self):
-		healthyLength = (len(self.healthy) / self.population) * self.graphRect.height
-		infectedLength = (len(self.infected) / self.population) * self.graphRect.height
-		deadLength = (len(self.dead) / self.population) * self.graphRect.height
-		curedLength = (len(self.cured) / self.population) *self.graphRect.height
-		self.graphLines.append(GraphLine(healthyLength,infectedLength,deadLength,curedLength,self.lastLinePosition,self.graphRect.top+1))
-
-	def drawGraph(self):
-		pygame.draw.rect(self.window.display,[0,0,0],self.graphRect,1)
-		if self.lastLinePosition < self.graphRect.right :
+		if self.lastLinePosition < self.graphRect.right-2 :
 			self.lastLinePosition += 1
 		else :
 			self.graphLines.remove(self.graphLines[0])
@@ -91,6 +85,10 @@ class Stats:
 				line.infected = line.infected.move(-1,0)
 				line.dead = line.dead.move(-1,0)
 				line.cured = line.cured.move(-1,0)
+		self.graphLines.append(GraphLine(self.lineLength(self.healthy),self.lineLength(self.infected),self.lineLength(self.dead),self.lineLength(self.cured),self.lastLinePosition,self.graphRect.top+1))
+
+	def drawGraph(self):
+		pygame.draw.rect(self.window.display,[0,0,0],self.graphRect,1)
 		for line in self.graphLines:
 			pygame.draw.rect(self.window.display,[0,0,255],line.healthy)
 			pygame.draw.rect(self.window.display,[255,0,0],line.infected)
@@ -156,9 +154,9 @@ while 1 :
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT: 
 			sys.exit()
-		if window.scene == "MENU" and event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_RETURN:
-					window.scene = "SIMULATION"
+		# if window.scene == "MENU" and event.type == pygame.KEYDOWN:
+		# 		if event.key == pygame.K_RETURN:
+		# 			window.scene = "SIMULATION"
 	framerate = window.clock.tick(60)
 	window.display.fill(color["WHITE"])
 	if window.scene == "MENU" :
