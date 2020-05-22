@@ -9,7 +9,7 @@ class Menu:
 		self.selectedJSON = "Virus Presets/coronavirus.json"
 		self.sliderCheck = False
 		self.population = 100
-		self.__maxPop = 201
+		self.__maxPop = 200
 
 		self.baseBottomRect = pygame.Rect(10, Window.display.get_height()-50, Window.display.get_width()-20,40)
 		self.baseTopRect = pygame.Rect(10,10, Window.display.get_width(),50)
@@ -83,7 +83,7 @@ class Menu:
 			if self.sliderCheck and self.blockList["sliderButton"].isHolding():
 				self.blockList["sliderButton"].rect.center = pygame.mouse.get_pos()[0], self.blockList["sliderButton"].rect.center[1]
 
-		self.population = int((self.blockList["sliderButton"].rect.center[0] - self.blockList["sliderBar"].rect.left) * self.__maxPop / self.blockList["sliderBar"].rect.width)
+		self.population = int((self.blockList["sliderButton"].rect.center[0] - self.blockList["sliderBar"].rect.left) * self.__maxPop / self.blockList["sliderBar"].rect.width)+1
 		self.blockList["sliderText"].textString = str(self.population)
 		self.render()
 		
