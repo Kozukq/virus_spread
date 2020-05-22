@@ -169,6 +169,6 @@ while 1 :
 		if simulation.isStarted == True :
 			simulation.run(framerate)
 		else :
-			simulation.initialize(200,menu.selectedJSON)
+			simulation.initialize(menu.population,menu.selectedJSON)
 			simulation.isStarted = True
 	pygame.display.flip()

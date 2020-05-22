@@ -7,6 +7,9 @@ class Menu:
 		self.window = Window
 		 
 		self.selectedJSON = "Virus Presets/coronavirus.json"
+		self.sliderCheck = False
+		self.population = 100
+		self.__maxPop = 201
 
 		self.baseBottomRect = pygame.Rect(10, Window.display.get_height()-50, Window.display.get_width()-20,40)
 		self.baseTopRect = pygame.Rect(10,10, Window.display.get_width(),50)
@@ -30,7 +33,10 @@ class Menu:
 		self.blockList["ImpactOnWeaks"] = TextBlock(Window.display.get_width(), 10, self.blockList["80+"].rect, "bottom", padding=10, text="Impact on weaks : ", fontSize = 15)
 		self.blockList["HealTimer"] = TextBlock(Window.display.get_width(), 10, self.blockList["ImpactOnWeaks"].rect, "bottom", padding=10, text="Heal Timer : ", fontSize = 15)
 		self.blockList["DeathTimer"] = TextBlock(Window.display.get_width(), 10, self.blockList["HealTimer"].rect, "bottom", padding=10, text="Death Timer : ", fontSize = 15)
-
+		self.blockList["Population"] = TextBlock(150, 20, self.blockList["DeathTimer"].rect, "bottom", padding = 10, text = "Population : ", fontSize = 15)
+		self.blockList["sliderBar"] = Block(300, 1, self.blockList["Population"].rect, "right", padding = 20)
+		self.blockList["sliderButton"] = Button(20,20, self.blockList["sliderBar"].rect, "inside", "center")
+		self.blockList["sliderText"] = TextBlock(40, 20, self.blockList["sliderBar"].rect, "right", padding = 20, text=str(self.population), fontSize=15)
 
 		self.blockList["StartButton"] = Button(75, 40, self.blockList["BottomBlock"].rect, "inside", "left")
 		self.blockList["StartText"] = TextBlock(75, 40, self.blockList["BottomBlock"].rect, "inside", "left", padding = 2, text = "Start")
@@ -61,19 +67,29 @@ class Menu:
 				self.blockList["jsonArrow"].imageSrc = "resources/arrow.png"
 			for block in self.blockList["presets"]:
 				block.isVisible = not block.isVisible
+
 		for index, preset in enumerate(self.blockList["presets"]):
 			if isinstance(preset, Button):
 				if preset.clickEvent():
 					self.selectedJSON = "Virus Presets/"+self.blockList["presets"][index+1].textString
+					self.blockList["jsonArrow"].imageSrc = "resources/arrow.png"
 					self.load()
 					for block in self.blockList["presets"]:
 						block.isVisible = not block.isVisible
 
+		if self.blockList["sliderButton"].clickEvent():
+			self.sliderCheck = True
+		if pygame.mouse.get_pos()[0] > self.blockList["sliderBar"].rect.left and pygame.mouse.get_pos()[0] < self.blockList["sliderBar"].rect.right:
+			if self.sliderCheck and self.blockList["sliderButton"].isHolding():
+				self.blockList["sliderButton"].rect.center = pygame.mouse.get_pos()[0], self.blockList["sliderButton"].rect.center[1]
+
+		self.population = int((self.blockList["sliderButton"].rect.center[0] - self.blockList["sliderBar"].rect.left) * self.__maxPop / self.blockList["sliderBar"].rect.width)
+		self.blockList["sliderText"].textString = str(self.population)
 		self.render()
 		
 
 	def load(self):
-		self.blockList["jsonText"].textString = self.selectedJSON
+		self.blockList["jsonText"].textString = "Path : \"" + self.selectedJSON + "\""
 		with open(self.selectedJSON) as file:
 			data = json.load(file)
 			self.blockList["name"].textString = "Name : " + data["name"]
@@ -125,8 +141,10 @@ class Block:
 			self.rect.center = self.rect.center[0]+padding, self.rect.center[1]
 		elif anchor == "left":
 			self.rect.right = parentRect.left - padding
+			self.rect.center = self.rect.center[0], parentRect.center[1]
 		elif anchor == "right":
 			self.rect.left = parentRect.right + padding
+			self.rect.center = self.rect.center[0], parentRect.center[1]
 		elif anchor == "inside":
 			if centering == "left":
 				self.rect.left = parentRect.left + padding
@@ -161,6 +179,12 @@ class Button(Block):
 		if self.isVisible and not pygame.mouse.get_pressed()[0]:
 			self.test = True
 			return pygame.mouse.get_pos()[0] > self.rect.left and pygame.mouse.get_pos()[0] < self.rect.right and pygame.mouse.get_pos()[1] < self.rect.bottom and pygame.mouse.get_pos()[1] > self.rect.top
+
+	def isHolding(self):
+		self.clickEvent()
+		if self.test == False:
+			return True
+
 		
 			
 
@@ -170,7 +194,7 @@ class Button(Block):
 			self.color = [255, 230, 153]
 		else:
 			self.color = [255, 255, 204]
-		if self.hasClicked():
+		if self.isHolding():
 			self.color = [255, 179, 153]
 		if self.border == True:
 			pygame.draw.rect(Surface, [0,0,0], self.rect, 1)
