@@ -44,7 +44,7 @@ class Menu:
 		self.blockList["jsonText"].textString = self.selectedJSON
 		index = 0
 		for file in os.listdir("Virus Presets"):
-			self.blockList["presets"].append(Button(300, 50, self.blockList["presets"][index].rect, "bottom", padding=10, isVisible = False))
+			self.blockList["presets"].append(Button(300, 50, self.blockList["presets"][index].rect, "bottom", padding=0, isVisible = False))
 			self.blockList["presets"][index+1].rect.right = self.blockList["jsonButton"].rect.right
 			self.blockList["presets"].append(TextBlock(100, 50, self.blockList["presets"][index+1].rect, "inside", "left", text=str(file), padding = 10, isVisible = False))
 			index += 2
