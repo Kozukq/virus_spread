@@ -21,11 +21,9 @@ class Person:
 		self.isInfected = False
 		self.isCured = False
 		self.healthIssues = determineFrom(0.25)
-		self.equipment = { "mask" : determineFrom(0.5) }
-
+		self.equipment = { "mask" : determineFrom(0) }
 		#Comportement de la personne
 		self.behavior = behaviorTypes["Cautious"]
-
 		#################################### Graphics part ###################################################
 		#Position de la personne dans l'espace
 		self.rect = Rect
@@ -38,15 +36,9 @@ class Person:
 		self.hitbox = pygame.Rect((self.position.x)-5, (self.position.y)-5, self.radius*1.5, self.radius*1.5)
 		self.speed = 20
 		self.isMoving = True
-		self.isPaused = False
-		self.pauseDuration = 0
-		self.pauseMarker = None
-
 		self.virus = None
 		self.infectionTime = None
 		self.willDie = None
-
-
 
 	#Méthode qui affiche les infos de la personne dans la console
 	def debug(self):
@@ -87,8 +79,6 @@ class Person:
 		if index == 3:
 			self.direction.y = -(abs(self.direction.y))
 			
-
-
 	def move(self, deltaTime):
 		if self.isMoving:
 			self.position += self.direction * self.speed / deltaTime
@@ -123,12 +113,6 @@ class Person:
 					if person.hitbox == HitboxList[firstCollision]:
 						person.infection(self.virus)
 
-			# if self.isInfected and self.isAlive:
-			# 	PersonList[firstCollision].infection(self.virus.contagiousRate, self.virus.pathToJson)
-
-			# if persons[index].isInfected and persons[index].isAlive:
-			# 	self.infection(persons[index].virus.contagiousRate, persons[index].virus.pathToJson)
-
 	########Infection########
 
 	def firstInfection(self,JSON):
@@ -153,21 +137,14 @@ class Person:
 
 	def update(self):
 		#Gestion du temps de pause :
-		if self.isPaused:
-			if not self.pauseMarker:
-				self.pauseMarker = time.time()
-		else:
-			if self.pauseMarker:
-				self.pauseDuration = time.time() - self.pauseMarker
-				self.pauseMarker = None
-			if self.isInfected == True:
-				if self.willDie == True:
-					if time.time() - self.infectionTime - self.pauseDuration >= self.virus.deathTimer:
-						self.isAlive = False
-				else:
-					if time.time() - self.infectionTime - self.pauseDuration >= self.virus.healTimer:
-						self.isInfected = False
-						self.isCured = True
+		if self.isInfected == True:
+			if self.willDie == True:
+				if time.time() - self.infectionTime >= self.virus.deathTimer:
+					self.isAlive = False
+			else:
+				if time.time() - self.infectionTime >= self.virus.healTimer:
+					self.isInfected = False
+					self.isCured = True
 		self.updateColor()
 
 	def updateColor(self):
@@ -181,13 +158,3 @@ class Person:
 		else:
 			self.color = [0,0,0]
 			self.isMoving = False
-
-# def generate(Rect, n = 100):
-# 	persons = []
-# 	while n > 0:
-# 		persons.append(Person(Rect))
-# 		n -= 1
-# 	hitboxes = []
-# 	for person in persons:
-# 		hitboxes.append(person.hitbox)
-# 	return persons, hitboxes

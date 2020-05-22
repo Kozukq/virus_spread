@@ -8,7 +8,6 @@ Interface utilisateur
 		> Selecteur dans une liste permettant de séléctionner le virus.json à lancer ainsi que le layout du niveau	
 		> Sélection des paramètres de la simulation (population, virus, environnement,...)
 		- Création personnalisée d'un virus qui sera stocké dans un fichier custom.JSON
-	- Affichage des infos de la personne suite à un clic via une pop-up et remplaçant le graphique (top-right corner)
 
 Ressources pour la simulation
 	- Choix de 3 virus pour les templates et recueil de données epidémiologiques
@@ -24,14 +23,18 @@ Traitement logique de la simulation
 	> Classe simulation permettant d'initialiser la simu depuis le menu puis de l'arrêter avec un retour menu
 
 Affichage graphique
+	> Affichage des infos de la personne suite à un clic via une pop-up et remplaçant le graphique (top-right corner)
 	- Plusieurs environnements dans lesquels les personnes se déplacent et se comportent de façon différente
-	> Graphique temps réel représentant la distribution des états (sain/infecté/soigné/mort) de la population de la simulation en cours
-		+ Gestion des statistiques de la simulation
-		+ Affichage des statistiques dans la fenêtre
-		> Affichage du graphique (top-right corner)
 	- Affichage détaillé des stats de la simulation une fois celle-ci arrêtée (affichage de transition avant le retour menu)
 
 # Tâches accomplies 
+
+(Jeudi 21)
+Affichage graphique
+	- Graphique temps réel représentant la distribution des états (sain/infecté/soigné/mort) de la population de la simulation en cours
+		- Gestion des statistiques de la simulation
+		- Affichage des statistiques dans la fenêtre
+		- Affichage du graphique (top-right corner)
 
 (Lundi 18)
 Affichage graphique
