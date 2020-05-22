@@ -1,12 +1,10 @@
 # Tâches à réaliser
 
 Interface utilisateur
-	> Menu permettant de paramétrer la simulation :
-		> Création d'une classe de blocs modulaires qui seront affichés de façon adaptative sur le menu
-		> Affichage des paramètres de la simulation
-		> Slider permettant de régler la taille de la population
-		> Selecteur dans une liste permettant de séléctionner le virus.json à lancer ainsi que le layout du niveau	
-		> Sélection des paramètres de la simulation (population, virus, environnement,...)
+	- Menu permettant de paramétrer la simulation :
+		- Sélection des paramètres de la simulation (population, virus, environnement,...) :
+		 	- Slider permettant de régler la taille de la population
+			- Selecteur de layout du niveau	
 		- Création personnalisée d'un virus qui sera stocké dans un fichier custom.JSON
 
 Ressources pour la simulation
@@ -35,6 +33,11 @@ Affichage graphique
 		- Gestion des statistiques de la simulation
 		- Affichage des statistiques dans la fenêtre
 		- Affichage du graphique (top-right corner)
+Interface utilisateur
+	- Menu permettant de paramétrer la simulation :
+		- Création d'une classe de blocs modulaires qui seront affichés de façon adaptative sur le menu
+		- Affichage des paramètres de la simulation
+		- Selecteur dans une liste permettant de séléctionner le virus.json
 
 (Lundi 18)
 Affichage graphique

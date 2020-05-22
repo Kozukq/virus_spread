@@ -56,11 +56,19 @@ class Menu:
 		if self.blockList["jsonButton"].clickEvent():
 			for block in self.blockList["presets"]:
 				block.isVisible = not block.isVisible
+		for index, preset in enumerate(self.blockList["presets"]):
+			if isinstance(preset, Button):
+				if preset.clickEvent():
+					self.selectedJSON = "Virus Presets/"+self.blockList["presets"][index+1].textString
+					self.load()
+					for block in self.blockList["presets"]:
+						block.isVisible = not block.isVisible
 
 		self.render()
 		
 
 	def load(self):
+		self.blockList["jsonText"].textString = self.selectedJSON
 		with open(self.selectedJSON) as file:
 			data = json.load(file)
 			self.blockList["name"].textString = "Name : " + data["name"]
