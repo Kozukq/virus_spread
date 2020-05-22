@@ -37,6 +37,7 @@ class Menu:
 
 		self.blockList["jsonText"] = TextBlock(500, 30, self.blockList["TopBlock"].rect, "inside", "left", padding=30, text="", fontSize = 20)
 		self.blockList["jsonButton"] = Button(20, 20, self.blockList["TopBlock"].rect, "inside", "right", padding = 15)
+		self.blockList["jsonArrow"] = SpriteBlock(20,20,self.blockList["TopBlock"].rect, "inside", "right", padding = 15, imageSrc = "resources/arrow.png")
 		self.blockList["presets"] = []
 		self.blockList["presets"].append(Block(0,0, self.blockList["jsonButton"].rect, "bottom"))
 
@@ -54,6 +55,10 @@ class Menu:
 
 	def update(self):
 		if self.blockList["jsonButton"].clickEvent():
+			if not self.blockList["presets"][1].isVisible:
+				self.blockList["jsonArrow"].imageSrc = "resources/arrow2.png"
+			else:
+				self.blockList["jsonArrow"].imageSrc = "resources/arrow.png"
 			for block in self.blockList["presets"]:
 				block.isVisible = not block.isVisible
 		for index, preset in enumerate(self.blockList["presets"]):
@@ -205,7 +210,10 @@ class SpriteBlock(Block):
 		
 
 	def display(self, Surface):
-		pygame.draw.rect(Surface, self.color, self.rect)
+		self.s = pygame.Surface((self.rect.width, self.rect.height))
+		self.s.set_alpha(0)
+		self.s.fill((255, 255, 255))
+		Surface.blit(self.s, self.rect)
 		self.image = pygame.image.load(self.imageSrc)
 		Surface.blit(self.image, self.rect.topleft)
 		if self.border == True:
