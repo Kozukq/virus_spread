@@ -2,9 +2,9 @@
 
 Interface utilisateur
 	- Menu permettant de paramétrer la simulation :
-		- Sélection des paramètres de la simulation (population, virus, environnement,...) :
-		 	- Slider permettant de régler la taille de la population
-			- Selecteur de layout du niveau	
+		> Sélection des paramètres de la simulation (population, virus, environnement,...) :
+		 	+ Slider permettant de régler la taille de la population
+			> Selecteur de layout du niveau	
 		- Création personnalisée d'un virus qui sera stocké dans un fichier custom.JSON
 
 Ressources pour la simulation

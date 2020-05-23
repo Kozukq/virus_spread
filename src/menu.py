@@ -36,6 +36,7 @@ class Menu:
 		self.blockList["Population"] = TextBlock(150, 20, self.blockList["DeathTimer"].rect, "bottom", padding = 10, text = "Population : ", fontSize = 15)
 		self.blockList["sliderBar"] = Block(300, 10, self.blockList["Population"].rect, "right", padding = 20)
 		self.blockList["sliderButton"] = Button(20,20, self.blockList["sliderBar"].rect, "inside", "center")
+		self.blockList["sliderIcon"] = SpriteBlock(20,20, self.blockList["sliderButton"].rect, "inside", "center", imageSrc="resources/doublearrow.png")
 		self.blockList["sliderText"] = TextBlock(40, 20, self.blockList["sliderBar"].rect, "right", padding = 20, text=str(self.population), fontSize=15)
 
 		self.blockList["StartButton"] = Button(75, 40, self.blockList["BottomBlock"].rect, "inside", "left")
@@ -77,14 +78,13 @@ class Menu:
 					for block in self.blockList["presets"]:
 						block.isVisible = not block.isVisible
 
-		if self.blockList["sliderButton"].clickEvent():
-			self.sliderCheck = True
 		if pygame.mouse.get_pos()[0] > self.blockList["sliderBar"].rect.left and pygame.mouse.get_pos()[0] < self.blockList["sliderBar"].rect.right:
-			if self.sliderCheck and self.blockList["sliderButton"].isHolding():
+			if self.blockList["sliderButton"].isHolding():
 				self.blockList["sliderButton"].rect.center = pygame.mouse.get_pos()[0], self.blockList["sliderButton"].rect.center[1]
+				self.population = int((self.blockList["sliderButton"].rect.center[0] - self.blockList["sliderBar"].rect.left) * self.__maxPop / self.blockList["sliderBar"].rect.width)+1
+				self.blockList["sliderText"].textString = str(self.population)
+				self.blockList["sliderIcon"].rect.center = self.blockList["sliderButton"].rect.center
 
-		self.population = int((self.blockList["sliderButton"].rect.center[0] - self.blockList["sliderBar"].rect.left) * self.__maxPop / self.blockList["sliderBar"].rect.width)+1
-		self.blockList["sliderText"].textString = str(self.population)
 		self.render()
 		
 
