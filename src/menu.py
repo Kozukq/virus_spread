@@ -10,6 +10,8 @@ class Menu:
 		self.sliderCheck = False
 		self.population = 100
 		self.__maxPop = 200
+		self.protectedPerc = 50
+		self.protected = 0.5
 
 		self.baseBottomRect = pygame.Rect(10, Window.display.get_height()-50, Window.display.get_width()-20,40)
 		self.baseTopRect = pygame.Rect(10,10, Window.display.get_width(),50)
@@ -33,17 +35,17 @@ class Menu:
 		self.blockList["ImpactOnWeaks"] = TextBlock(Window.display.get_width(), 10, self.blockList["80+"].rect, "bottom", padding=10, text="Impact on weaks : ", fontSize = 15)
 		self.blockList["HealTimer"] = TextBlock(Window.display.get_width(), 10, self.blockList["ImpactOnWeaks"].rect, "bottom", padding=10, text="Heal Timer : ", fontSize = 15)
 		self.blockList["DeathTimer"] = TextBlock(Window.display.get_width(), 10, self.blockList["HealTimer"].rect, "bottom", padding=10, text="Death Timer : ", fontSize = 15)
-		self.blockList["Population"] = TextBlock(150, 20, self.blockList["DeathTimer"].rect, "bottom", padding = 10, text = "Population : ", fontSize = 15)
+		self.blockList["Population"] = TextBlock(220, 20, self.blockList["DeathTimer"].rect, "bottom", padding = 10, text = "Population : ", fontSize = 15)
 		self.blockList["sliderBar"] = Block(300, 10, self.blockList["Population"].rect, "right", padding = 20)
 		self.blockList["sliderButton"] = Button(20,20, self.blockList["sliderBar"].rect, "inside", "center")
 		self.blockList["sliderIcon"] = SpriteBlock(20,20, self.blockList["sliderButton"].rect, "inside", "center", imageSrc="resources/doublearrow.png")
 		self.blockList["sliderText"] = TextBlock(40, 20, self.blockList["sliderBar"].rect, "right", padding = 20, text=str(self.population), fontSize=15)
 
-		self.blockList["Protected"] = TextBlock(150, 20, self.blockList["Population"].rect, "bottom", padding = 10, text = "Amount of protected people : ", fontSize = 15)
+		self.blockList["Protected"] = TextBlock(220, 20, self.blockList["Population"].rect, "bottom", padding = 10, text = "Amount of protected people : ", fontSize = 15)
 		self.blockList["protectedBar"] = Block(300, 10, self.blockList["Protected"].rect, "right", padding = 20)
 		self.blockList["protectedButton"] = Button(20,20, self.blockList["protectedBar"].rect, "inside", "center")
 		self.blockList["protectedIcon"] = SpriteBlock(20,20, self.blockList["protectedButton"].rect, "inside", "center", imageSrc="resources/doublearrow.png")
-		self.blockList["protectedText"] = TextBlock(40, 20, self.blockList["protectedBar"].rect, "right", padding = 20, text=str(self.population), fontSize=15)
+		self.blockList["protectedText"] = TextBlock(40, 20, self.blockList["protectedBar"].rect, "right", padding = 20, text=str(self.protectedPerc)+" %", fontSize=15)
 
 		self.blockList["StartButton"] = Button(75, 40, self.blockList["BottomBlock"].rect, "inside", "left")
 		self.blockList["StartText"] = TextBlock(75, 40, self.blockList["BottomBlock"].rect, "inside", "left", padding = 2, text = "Start")
@@ -94,10 +96,13 @@ class Menu:
 		if pygame.mouse.get_pos()[0] > self.blockList["protectedBar"].rect.left and pygame.mouse.get_pos()[0] < self.blockList["protectedBar"].rect.right:
 			if self.blockList["protectedButton"].isHolding():
 				self.blockList["protectedButton"].rect.center = pygame.mouse.get_pos()[0], self.blockList["protectedButton"].rect.center[1]
-				self.population = int((self.blockList["protectedButton"].rect.center[0] - self.blockList["protectedBar"].rect.left) * self.__maxPop / self.blockList["protectedBar"].rect.width)+1
-				self.blockList["protectedText"].textString = str(self.population)
+				self.protectedPerc = float((self.blockList["protectedButton"].rect.center[0] - self.blockList["protectedBar"].rect.left) * 1 / self.blockList["protectedBar"].rect.width)
+				self.protectedPerc = int(self.protectedPerc*100)
+				self.protected = float(self.protectedPerc/100)
+				self.blockList["protectedText"].textString = str(self.protectedPerc) + " %"
 				self.blockList["protectedIcon"].rect.center = self.blockList["protectedButton"].rect.center
-
+		print(str(self.protected))
+		print(str(self.protectedPerc))
 		self.render()
 		
 
