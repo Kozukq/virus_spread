@@ -13,7 +13,7 @@ namesList = ["Ben", "Gabriel", "Jupiler", "Passepartout", "Bill", "François", "
 
 #Classe permettant de représenter une personne
 class Person:
-	def __init__(self, Rect):
+	def __init__(self, Rect, protectionChance, psychoChance):
 		#Données brutes sur la personne
 		self.name = random.choice(namesList)
 		self.age = random.randint(10,99)
@@ -21,9 +21,13 @@ class Person:
 		self.isInfected = False
 		self.isCured = False
 		self.healthIssues = determineFrom(0.25)
-		self.equipment = { "mask" : determineFrom(0) }
+
 		#Comportement de la personne
-		self.behavior = behaviorTypes["Cautious"]
+		self.behavior = random.choices(list(behaviorTypes.items), k=protectionChance)
+		if self.behavior.name == "Uncareful":
+			self.behavior.isPsycho = determineFrom(psychoChance)
+			self.target = None
+
 		#################################### Graphics part ###################################################
 		#Position de la personne dans l'espace
 		self.rect = Rect
@@ -59,8 +63,8 @@ class Person:
 		pygame.draw.circle(Window, self.color, [int(self.position.x), int(self.position.y)], int(self.radius), self.width)
 		#pygame.draw.rect(Window, [0,0,0], self.hitbox,1)
 
-	def moveTowards(self, target : pygame.math.Vector2, speed : float):
-		self.position += (target - self.position).normalize() * speed
+	def moveTowards(self, target, deltaTime):
+		self.position += (target - self.position).normalize() * self.behavior.speed / deltaTime
 
 	def bounce(self, index):
 		#collision left
@@ -81,17 +85,30 @@ class Person:
 			
 	def move(self, deltaTime):
 		if self.isMoving:
-			self.position += self.direction * self.speed / deltaTime
-			self.hitbox.center = (self.position.x, self.position.y)
+			if not self.behavior.isPsycho or (self.behavior.isPsycho and not self.isInfected):
+				self.position += self.direction * self.behavior.speed / deltaTime
+				self.hitbox.center = (self.position.x, self.position.y)
 
-			if self.position.x < self.rect.left + self.radius:
-				self.bounce(0)
-			elif self.position.x > self.rect.right - self.radius:
-				self.bounce(1)
-			if self.position.y < self.rect.top + self.radius:
-				self.bounce(2)
-			elif self.position.y > self.rect.bottom - self.radius:
-				self.bounce(3)
+				if self.position.x < self.rect.left + self.radius:
+					self.bounce(0)
+				elif self.position.x > self.rect.right - self.radius:
+					self.bounce(1)
+				if self.position.y < self.rect.top + self.radius:
+					self.bounce(2)
+				elif self.position.y > self.rect.bottom - self.radius:
+					self.bounce(3)
+			else: 
+				if self.target:
+					if self.target.isInfected:
+						self.target = None
+					else:
+						self.moveTowards(self.target, deltaTime)
+				
+
+	def getTarget(self, healthyPeople):
+		self.target = random.choice(healthyPeople)
+
+
 
 
 	def checkForCollisions(self, OriginalHitboxList, PersonList):

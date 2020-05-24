@@ -111,16 +111,20 @@ class Simulation:
 		self.hitboxList = []
 		self.stats = None
 		self.isStarted = False
+		self.protectionChance = 0
+		self.psychoChance = 0
 
-	def generate(self):
+	def generate(self, protectedChance, psychoChance):
 		for i in range(0,self.population):
-			self.personList.append(Person(self.simuRect))
+			self.personList.append(Person(self.simuRect, protectedChance, psychoChance))
 		for person in self.personList:
 			self.hitboxList.append(person.hitbox)
 
-	def initialize(self,population,virus):
+	def initialize(self,population,virus, protectedChance, psychoChance):
 		self.population = population
-		self.generate()
+		self.protectedChance = protectedChance
+		self.psychoChance = psychoChance
+		self.generate(protectedChance, psychoChance)
 		self.personList[0].firstInfection(virus)
 		self.stats = Stats(self.window,self.population,self.statRect,self.personList)
 
@@ -129,6 +133,8 @@ class Simulation:
 		for person in self.personList:
 			person.update()
 			person.move(framerate)
+			if person.behavior.isPsycho and person.target == None:
+				person.getTarget(self.stats.healthy)
 			person.checkForCollisions(self.hitboxList,self.personList)
 			person.draw(self.window.display)
 
