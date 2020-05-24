@@ -40,7 +40,6 @@ class Person:
 		#Vecteur normalisé représentant la direction
 		self.direction = pygame.math.Vector2(random.uniform(-1,1), random.uniform(-1, 1)).normalize()
 		self.hitbox = pygame.Rect((self.position.x)-5, (self.position.y)-5, self.radius*1.5, self.radius*1.5)
-		self.speed = 20
 		self.isMoving = True
 		self.virus = None
 		self.infectionTime = None
