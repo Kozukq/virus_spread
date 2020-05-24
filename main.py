@@ -114,17 +114,15 @@ class Simulation:
 		self.protectionChance = 0
 		self.psychoChance = 0
 
-	def generate(self, protectedChance, psychoChance):
+	def generate(self, protectedChance):
 		for i in range(0,self.population):
-			self.personList.append(Person(self.simuRect, protectedChance, psychoChance))
+			self.personList.append(Person(self.simuRect, protectedChance))
 		for person in self.personList:
 			self.hitboxList.append(person.hitbox)
 
-	def initialize(self,population,virus, protectedChance, psychoChance):
+	def initialize(self,population,virus, protectedChance):
 		self.population = population
-		self.protectedChance = protectedChance
-		self.psychoChance = psychoChance
-		self.generate(protectedChance, psychoChance)
+		self.generate(protectedChance)
 		self.personList[0].firstInfection(virus)
 		self.stats = Stats(self.window,self.population,self.statRect,self.personList)
 
@@ -133,8 +131,6 @@ class Simulation:
 		for person in self.personList:
 			person.update()
 			person.move(framerate)
-			if person.behavior.isPsycho and person.target == None:
-				person.getTarget(self.stats.healthy)
 			person.checkForCollisions(self.hitboxList,self.personList)
 			person.draw(self.window.display)
 
@@ -173,6 +169,6 @@ while 1 :
 		if simulation.isStarted == True :
 			simulation.run(framerate)
 		else :
-			simulation.initialize(menu.population,menu.selectedJSON)
+			simulation.initialize(menu.population,menu.selectedJSON, 0.5)
 			simulation.isStarted = True
 	pygame.display.flip()

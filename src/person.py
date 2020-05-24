@@ -13,7 +13,7 @@ namesList = ["Ben", "Gabriel", "Jupiler", "Passepartout", "Bill", "François", "
 
 #Classe permettant de représenter une personne
 class Person:
-	def __init__(self, Rect, protectionChance, psychoChance):
+	def __init__(self, Rect, protectionChance):
 		#Données brutes sur la personne
 		self.name = random.choice(namesList)
 		self.age = random.randint(10,99)
@@ -21,12 +21,14 @@ class Person:
 		self.isInfected = False
 		self.isCured = False
 		self.healthIssues = determineFrom(0.25)
+		self.target = None
 
 		#Comportement de la personne
-		self.behavior = random.choices(list(behaviorTypes.items), k=protectionChance)
-		if self.behavior.name == "Uncareful":
-			self.behavior.isPsycho = determineFrom(psychoChance)
-			self.target = None
+		if determineFrom(protectionChance):
+			self.behavior = behaviorTypes[0]
+		else:
+			self.behavior = behaviorTypes[1]
+			
 
 		#################################### Graphics part ###################################################
 		#Position de la personne dans l'espace
@@ -63,8 +65,7 @@ class Person:
 		pygame.draw.circle(Window, self.color, [int(self.position.x), int(self.position.y)], int(self.radius), self.width)
 		#pygame.draw.rect(Window, [0,0,0], self.hitbox,1)
 
-	def moveTowards(self, target, deltaTime):
-		self.position += (target - self.position).normalize() * self.behavior.speed / deltaTime
+
 
 	def bounce(self, index):
 		#collision left
@@ -85,28 +86,17 @@ class Person:
 			
 	def move(self, deltaTime):
 		if self.isMoving:
-			if not self.behavior.isPsycho or (self.behavior.isPsycho and not self.isInfected):
-				self.position += self.direction * self.behavior.speed / deltaTime
-				self.hitbox.center = (self.position.x, self.position.y)
+			self.position += self.direction * self.behavior.speed / deltaTime
+			self.hitbox.center = (self.position.x, self.position.y)
+			if self.position.x < self.rect.left + self.radius:
+				self.bounce(0)
+			elif self.position.x > self.rect.right - self.radius:
+				self.bounce(1)
+			if self.position.y < self.rect.top + self.radius:
+				self.bounce(2)
+			elif self.position.y > self.rect.bottom - self.radius:
+				self.bounce(3)
 
-				if self.position.x < self.rect.left + self.radius:
-					self.bounce(0)
-				elif self.position.x > self.rect.right - self.radius:
-					self.bounce(1)
-				if self.position.y < self.rect.top + self.radius:
-					self.bounce(2)
-				elif self.position.y > self.rect.bottom - self.radius:
-					self.bounce(3)
-			else: 
-				if self.target:
-					if self.target.isInfected:
-						self.target = None
-					else:
-						self.moveTowards(self.target, deltaTime)
-				
-
-	def getTarget(self, healthyPeople):
-		self.target = random.choice(healthyPeople)
 
 
 
@@ -144,8 +134,8 @@ class Person:
 	def infection(self,virus):
 		contagiousRate = virus.contagiousRate
 		if self.isAlive and not self.isInfected and not self.isCured:
-			if self.equipment["mask"] == True :
-				contagiousRate = 0
+			if self.behavior.isProtected == True :
+				contagiousRate = 0.3
 			if determineFrom(contagiousRate) == True :
 				self.virus = Virus(self.age,self.healthIssues,virus.JSON)
 				self.infectionTime = time.time()
@@ -166,7 +156,7 @@ class Person:
 
 	def updateColor(self):
 		if self.isAlive:
-			if self.equipment["mask"] == True :
+			if self.behavior.isProtected == True :
 				self.color = [150,150,150]
 			if self.isInfected:
 				self.color = [255,0,0]
