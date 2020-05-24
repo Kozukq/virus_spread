@@ -39,6 +39,12 @@ class Menu:
 		self.blockList["sliderIcon"] = SpriteBlock(20,20, self.blockList["sliderButton"].rect, "inside", "center", imageSrc="resources/doublearrow.png")
 		self.blockList["sliderText"] = TextBlock(40, 20, self.blockList["sliderBar"].rect, "right", padding = 20, text=str(self.population), fontSize=15)
 
+		self.blockList["Protected"] = TextBlock(150, 20, self.blockList["Population"].rect, "bottom", padding = 10, text = "Amount of protected people : ", fontSize = 15)
+		self.blockList["protectedBar"] = Block(300, 10, self.blockList["Protected"].rect, "right", padding = 20)
+		self.blockList["protectedButton"] = Button(20,20, self.blockList["protectedBar"].rect, "inside", "center")
+		self.blockList["protectedIcon"] = SpriteBlock(20,20, self.blockList["protectedButton"].rect, "inside", "center", imageSrc="resources/doublearrow.png")
+		self.blockList["protectedText"] = TextBlock(40, 20, self.blockList["protectedBar"].rect, "right", padding = 20, text=str(self.population), fontSize=15)
+
 		self.blockList["StartButton"] = Button(75, 40, self.blockList["BottomBlock"].rect, "inside", "left")
 		self.blockList["StartText"] = TextBlock(75, 40, self.blockList["BottomBlock"].rect, "inside", "left", padding = 2, text = "Start")
 
@@ -84,6 +90,13 @@ class Menu:
 				self.population = int((self.blockList["sliderButton"].rect.center[0] - self.blockList["sliderBar"].rect.left) * self.__maxPop / self.blockList["sliderBar"].rect.width)+1
 				self.blockList["sliderText"].textString = str(self.population)
 				self.blockList["sliderIcon"].rect.center = self.blockList["sliderButton"].rect.center
+
+		if pygame.mouse.get_pos()[0] > self.blockList["protectedBar"].rect.left and pygame.mouse.get_pos()[0] < self.blockList["protectedBar"].rect.right:
+			if self.blockList["protectedButton"].isHolding():
+				self.blockList["protectedButton"].rect.center = pygame.mouse.get_pos()[0], self.blockList["protectedButton"].rect.center[1]
+				self.population = int((self.blockList["protectedButton"].rect.center[0] - self.blockList["protectedBar"].rect.left) * self.__maxPop / self.blockList["protectedBar"].rect.width)+1
+				self.blockList["protectedText"].textString = str(self.population)
+				self.blockList["protectedIcon"].rect.center = self.blockList["protectedButton"].rect.center
 
 		self.render()
 		
