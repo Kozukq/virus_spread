@@ -21,8 +21,12 @@ class Person:
 		self.isInfected = False
 		self.isCured = False
 		self.healthIssues = determineFrom(0.25)
+<<<<<<< Updated upstream
 		self.target = None
 
+=======
+		self.equipment = { "mask" : determineFrom(0.25) }
+>>>>>>> Stashed changes
 		#Comportement de la personne
 		if determineFrom(protectionChance):
 			self.behavior = behaviorTypes[0]
