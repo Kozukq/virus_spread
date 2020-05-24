@@ -22,8 +22,12 @@ class Person:
 		self.isCured = False
 		self.healthIssues = determineFrom(0.25)
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 		self.target = None
 
+=======
+		self.equipment = { "mask" : determineFrom(0.25) }
+>>>>>>> Stashed changes
 =======
 		self.equipment = { "mask" : determineFrom(0.25) }
 >>>>>>> Stashed changes
