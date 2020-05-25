@@ -101,8 +101,6 @@ class Menu:
 				self.protected = float(self.protectedPerc/100)
 				self.blockList["protectedText"].textString = str(self.protectedPerc) + " %"
 				self.blockList["protectedIcon"].rect.center = self.blockList["protectedButton"].rect.center
-		print(str(self.protected))
-		print(str(self.protectedPerc))
 		self.render()
 		
 
@@ -233,8 +231,6 @@ class TextBlock(Block):
 
 
 	def display(self, Surface):
-		# pygame.draw.rect(Surface, self.color, self.rect)
-
 		self.s = pygame.Surface((self.rect.width, self.rect.height))
 		self.s.set_alpha(0)
 		self.s.fill((255, 255, 255))

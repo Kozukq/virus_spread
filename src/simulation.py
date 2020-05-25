@@ -1,0 +1,137 @@
+import pygame
+from src.person import Person
+
+color = {
+	"WHITE" : [255,255,255],
+	"BLACK" : [0,0,0],
+	"RED" : [255,0,0]
+}
+
+class GraphLine:
+	def __init__(self,healthyLength,infectedLength,deadLength,curedLength,xPosition,yPosition):
+		self.healthy = pygame.Rect(xPosition,yPosition,1,healthyLength)
+		self.infected = pygame.Rect(xPosition,self.healthy.bottom,1,infectedLength)
+		self.dead = pygame.Rect(xPosition,self.infected.bottom,1,deadLength)
+		self.cured = pygame.Rect(xPosition,self.dead.bottom,1,curedLength)
+
+class Stats:
+	def __init__(self,window,population,statRect,personList):
+		self.healthy = personList[:]
+		self.infected = []
+		self.dead = []
+		self.cured = []
+		self.fontSize = 20
+		self.font = pygame.font.Font("resources/fonts.ttf",self.fontSize)
+		self.antialiasing = True
+		self.statRect = statRect
+		self.textRect = pygame.Rect(self.statRect.left,self.statRect.top,200,self.statRect.height)
+		self.graphRect = pygame.Rect(self.textRect.right+50,self.statRect.top+10,self.statRect.width-self.textRect.width-100,self.statRect.height-20)
+		self.population = population
+		self.lastLinePosition = self.graphRect.left
+		self.graphLines = []
+		self.window = window
+
+	def update(self):
+		for person in self.healthy:
+			if person.isInfected:
+				self.infected.append(person)
+				self.healthy.remove(person)
+		for person in self.infected:
+			if not person.isAlive:
+				self.dead.append(person)
+				self.infected.remove(person)
+			elif person.isCured:
+				self.cured.append(person)
+				self.infected.remove(person)
+
+
+	def drawText(self):
+		text_healthy = self.font.render("Healthy : " + str(len(self.healthy)),self.antialiasing,color["BLACK"])
+		text_infected = self.font.render("Infected : " + str(len(self.infected)),self.antialiasing,color["BLACK"])
+		text_dead = self.font.render("Dead : " + str(len(self.dead)),self.antialiasing,color["BLACK"])
+		text_cured = self.font.render("Cured : " + str(len(self.cured)),self.antialiasing,color["BLACK"])
+		drawingRect = self.textRect 
+		self.window.display.blit(text_healthy,drawingRect)
+		drawingRect = drawingRect.move(0,self.fontSize)
+		self.window.display.blit(text_infected,drawingRect)
+		drawingRect = drawingRect.move(0,self.fontSize)
+		self.window.display.blit(text_dead,drawingRect)
+		drawingRect = drawingRect.move(0,self.fontSize)
+		self.window.display.blit(text_cured,drawingRect)
+
+	def lineLength(self,status):
+		return (len(status) / self.population) * (self.graphRect.height-2)
+
+	def graphUpdate(self):
+		if self.lastLinePosition < self.graphRect.right-2 :
+			self.lastLinePosition += 1
+		else :
+			self.graphLines.remove(self.graphLines[0])
+			for line in self.graphLines:
+				line.healthy = line.healthy.move(-1,0)
+				line.infected = line.infected.move(-1,0)
+				line.dead = line.dead.move(-1,0)
+				line.cured = line.cured.move(-1,0)
+		self.graphLines.append(GraphLine(self.lineLength(self.healthy),self.lineLength(self.infected),self.lineLength(self.dead),self.lineLength(self.cured),self.lastLinePosition,self.graphRect.top+1))
+
+	def drawGraph(self):
+		pygame.draw.rect(self.window.display,[0,0,0],self.graphRect,1)
+		for line in self.graphLines:
+			pygame.draw.rect(self.window.display,[0,0,255],line.healthy)
+			pygame.draw.rect(self.window.display,[255,0,0],line.infected)
+			pygame.draw.rect(self.window.display,[0,0,0],line.dead)
+			pygame.draw.rect(self.window.display,[0,255,0],line.cured)
+
+	def debug(self):
+		print("Healthy : ", len(self.healthy))
+		print("Infected : ", len(self.infected))
+		print("Dead : ", len(self.dead))
+		print("Cured : ", len(self.cured))
+
+
+class Simulation:
+	def __init__(self,Window):
+		self.window = Window
+		self.population = 0
+		self.statRect = pygame.Rect(10,0,self.window.width,100)
+		self.simuRect = pygame.Rect(0,self.statRect.bottom,self.window.width,self.window.height-self.statRect.height)
+		self.personList = []
+		self.hitboxList = []
+		self.stats = None
+		self.isStarted = False
+		self.protectionChance = 0
+		self.psychoChance = 0
+
+	def generate(self, protectedChance):
+		for i in range(0,self.population):
+			self.personList.append(Person(self.simuRect, protectedChance))
+		for person in self.personList:
+			self.hitboxList.append(person.hitbox)
+
+	def initialize(self,population,virus, protectedChance):
+		self.population = population
+		self.generate(protectedChance)
+		self.personList[0].firstInfection(virus)
+		self.stats = Stats(self.window,self.population,self.statRect,self.personList)
+
+	def personRendering(self,framerate):
+		pygame.draw.rect(self.window.display,color["BLACK"],self.simuRect,1)
+		for person in self.personList:
+			person.update()
+			person.move(framerate)
+			person.checkForCollisions(self.hitboxList,self.personList)
+			person.draw(self.window.display)
+
+	def statRendering(self):
+		self.stats.update()
+		self.stats.graphUpdate()
+		self.stats.drawText()
+		self.stats.drawGraph()
+
+	def run(self,framerate):
+		self.personRendering(framerate)
+		self.statRendering()
+
+	def stop(self):
+		self.personList.clear()
+		self.hitboxList.clear()

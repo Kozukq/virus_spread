@@ -21,16 +21,7 @@ class Person:
 		self.isInfected = False
 		self.isCured = False
 		self.healthIssues = determineFrom(0.25)
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-		self.target = None
 
-=======
-		self.equipment = { "mask" : determineFrom(0.25) }
->>>>>>> Stashed changes
-=======
-		self.equipment = { "mask" : determineFrom(0.25) }
->>>>>>> Stashed changes
 		#Comportement de la personne
 		if determineFrom(protectionChance):
 			self.behavior = behaviorTypes[0]
@@ -52,19 +43,19 @@ class Person:
 		self.virus = None
 		self.infectionTime = None
 		self.willDie = None
+		self.click = False
 
 	#Méthode qui affiche les infos de la personne dans la console
 	def debug(self):
+		print("---------------------------------------")
 		print("Infos : ", self.name)
-		print("Position : ", self.position.toString())
 		print("Age : ", self.age)
 		print("Infected : ", self.isInfected)
 		print("Cured : ", self.isCured)
+		print("Alive : ", self.isAlive)
 		print("Has health issues : ", self.healthIssues)
 		print("Behavior : ", self.behavior.behaviorName)
-		if self.isInfected:
-			print()
-			self.virus.debug()
+		
 
 	########Graphics########
 
@@ -150,7 +141,6 @@ class Person:
 				self.isInfected = True
 
 	def update(self):
-		#Gestion du temps de pause :
 		if self.isInfected == True:
 			if self.willDie == True:
 				if time.time() - self.infectionTime >= self.virus.deathTimer:
@@ -160,6 +150,12 @@ class Person:
 					self.isInfected = False
 					self.isCured = True
 		self.updateColor()
+		if pygame.mouse.get_pressed()[0] and pygame.mouse.get_pos()[0] > self.hitbox.left-5 and pygame.mouse.get_pos()[0] < self.hitbox.right+5 and pygame.mouse.get_pos()[1] < self.hitbox.bottom+5 and pygame.mouse.get_pos()[1] > self.hitbox.top-5:
+			if self.click == False:
+				self.debug()
+				self.click = True
+			if not pygame.mouse.get_pressed()[0] and self.click == True:
+				self.click = False
 
 	def updateColor(self):
 		if self.isAlive:

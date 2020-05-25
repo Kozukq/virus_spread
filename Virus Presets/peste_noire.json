@@ -1,0 +1,9 @@
+{
+	"name": "Peste noire",
+	"contagiousRate": 1,
+	"deathRate": { "10-19":0.11, "20-29":0.11, "30-39":0.11, "40-49":0.11, "50-59":0.11, "60-69":0.11, "70-79":0.11, "80+":0.11 },
+	"impactOnWeaks":1.5,
+	
+	"healTimer":40,
+	"deathTimer":2
+}
